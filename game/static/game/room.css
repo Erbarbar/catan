@@ -23,7 +23,6 @@ body{
 
 #chat{
     position: relative;
-    width: 52.9vw;
     height: 100vh;
     overflow: hidden;
     display: inline-block;
