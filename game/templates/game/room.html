@@ -2,14 +2,188 @@
 <!DOCTYPE html>
 <html>
 <head>
+    {% load static %}
     <meta charset="utf-8"/>
-    <title>Chat Room</title>
+    <title>{{room_name_json}}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'game/room.css' %}">
 </head>
-<body>
-    <textarea id="chat-log" cols="100" rows="20"></textarea><br/>
-    <input id="chat-message-input" type="text" size="100"/><br/>
-    <input id="chat-message-submit" type="button" value="Send"/>
-</body>
+<body
+    ><div id="container"
+        ><div id="player_area_top" class="player_area"></div
+        ><div id="player_area_left" class="player_area"></div
+        ><div id="board"
+            ><canvas id="board_canvas" width="1000px" height="1000px">
+                
+            </canvas
+        ></div
+        ><div id="player_area_right" class="player_area"></div
+        ><div id="player_area_bottom" class="player_area"></div
+    ></div
+    ><div id="chat" 
+        ><textarea id="chat-log" cols="40" rows="45"></textarea><br/
+        ><input id="chat-message-input" type="text" size="36"/
+        ><input id="chat-message-submit" type="button" value="Send"/
+    ></div
+></body>
+<script>
+    var board_canvas = document.getElementById("board_canvas");
+
+    var cos30 = 0.866025,
+        sin30 = 0.5,
+        tan30 = 0.577350,
+        cos60 = 0.5,
+        sin60 = 0.866025,
+        radius = 80,
+        fields = randomise_array(["l", "l", "l", "l", "b", "b", "b", "g", "g", "g", "g", "w", "w", "w", "w", "o", "o", "o", "d"]),
+        numbers= randomise_array(["2", "3", "3", "4", "4", "5", "5", "6", "6", "8", "8", "9", "9", "10", "10", "11", "11", "12"]);
+
+    if (board_canvas.getContext){
+        var ctx = board_canvas.getContext('2d');
+
+        
+        ctx.beginPath();
+        ctx.moveTo(0,0);
+        ctx.lineTo(1000,1000);
+        ctx.stroke();
+        ctx.moveTo(1000,0);
+        ctx.lineTo(0,1000);
+        ctx.stroke();
+        ctx.closePath();
+
+
+        ctx.fillStyle = "#FF0000";
+        ctx.strokeStyle = "#00FF00";
+        ctx.lineWidth = 20;
+
+
+
+        drawBoard(ctx);
+
+        board_canvas.addEventListener("mousemove", function(eventInfo) {
+            return;
+            var x,
+                y,
+                hexX,
+                hexY,
+                screenX,
+                screenY;
+
+            x = eventInfo.offsetX || eventInfo.layerX;
+            y = eventInfo.offsetY || eventInfo.layerY;
+            x*=2;
+            y*=2;
+            hexY = Math.floor(y / (hexHeight + sideLength));
+            hexX = Math.floor((x - (hexY % 2) * hexRadius) / hexRectangleWidth);
+
+            screenX = hexX * hexRectangleWidth + ((hexY % 2) * hexRadius);
+            screenY = hexY * (hexHeight + sideLength);
+
+            ctx.clearRect(0, 0, board_canvas.width, board_canvas.height);
+
+            drawBoard(ctx, boardWidth, boardHeight);
+
+            // Check if the mouse's coords are on the board
+            if(hexX >= 0 && hexX < boardWidth) {
+                if(hexY >= 0 && hexY < boardHeight) {
+                    ctx.fillStyle = "#000000";
+                    //drawHexagon(ctx, screenX, screenY, true);
+                }
+            }
+        });
+    }
+
+    function randomise_array(array){
+        let randomised = [];
+        while(array.length > 0){
+            let r = Math.floor(Math.random() * array.length);
+            let value = array[r];
+            array.splice(r, 1);
+            randomised.push(value);
+        }
+        return randomised;
+    }
+
+    function drawBoard(canvasContext) {
+        let x = 500,
+            y= 500;
+
+        drawHexagon(canvasContext, x,y, 0);
+
+        drawHexagon(canvasContext, x+1*radius*cos30/tan30, y-1*radius*sin30/tan30, 1);
+        drawHexagon(canvasContext, x+1*radius*cos30/tan30, y+1*radius*sin30/tan30, 2);
+        drawHexagon(canvasContext, x, y+1*radius/tan30, 3);
+        drawHexagon(canvasContext, x-1*radius*cos30/tan30, y+1*radius*sin30/tan30, 4);
+        drawHexagon(canvasContext, x-1*radius*cos30/tan30, y-1*radius*sin30/tan30, 5);
+        drawHexagon(canvasContext, x, y-1*radius/tan30, 6);
+
+        drawHexagon(canvasContext, x+1*radius*cos30/tan30, y-1*radius*sin30/tan30-1*radius/tan30, 7);
+        drawHexagon(canvasContext, x+2*radius*cos30/tan30, y-2*radius*sin30/tan30, 8);
+        drawHexagon(canvasContext, x+2*radius+2*radius*sin30, y, 9);
+        drawHexagon(canvasContext, x+2*radius*cos30/tan30, y+2*radius*sin30/tan30, 10);
+        drawHexagon(canvasContext, x+1*radius*cos30/tan30, y+1*radius*sin30/tan30+1*radius/tan30, 11);
+        drawHexagon(canvasContext, x, y+2*radius/tan30, 12);
+        drawHexagon(canvasContext, x-1*radius*cos30/tan30, y+1*radius*sin30/tan30+1*radius/tan30, 13);
+        drawHexagon(canvasContext, x-2*radius*cos30/tan30, y+2*radius*sin30/tan30, 14);
+        drawHexagon(canvasContext, x-2*radius-2*radius*sin30, y, 15);
+        drawHexagon(canvasContext, x-2*radius*cos30/tan30, y-2*radius*sin30/tan30, 16);
+        drawHexagon(canvasContext, x-1*radius*cos30/tan30, y-1*radius*sin30/tan30-1*radius/tan30, 17);
+        drawHexagon(canvasContext, x, y-2*radius/tan30, 18);
+
+
+
+
+        //     for(j = 0; j < height; ++j) {
+        //         drawHexagon(
+        //             ctx, 
+        //             i * hexRectangleWidth + ((j % 2) * hexRadius), 
+        //             j * (sideLength + hexHeight), 
+        //             false
+        //         );
+        //     }
+        // }
+    }
+
+    function drawHexagon(canvasContext, x, y, index) {           
+        let l = radius; 
+
+        field = fields.pop();
+        if(field=="l")
+            canvasContext.fillStyle = "DarkGreen ";
+        if(field=="b")
+            canvasContext.fillStyle = "Coral";
+        if(field=="g")
+            canvasContext.fillStyle = "Gold";
+        if(field=="w")
+            canvasContext.fillStyle = "LawnGreen";
+        if(field=="o")
+            canvasContext.fillStyle = "Silver";
+        if(field=="d")
+            canvasContext.fillStyle = "PaleGoldenRod";
+
+        console.log(field);
+        canvasContext.strokeStyle = "#000";
+
+        canvasContext.beginPath();
+        canvasContext.moveTo(x + l, y);
+        canvasContext.lineTo(x + l*0.5, y + l*0.866);
+        canvasContext.lineTo(x - l*0.5, y + l*0.866);
+        canvasContext.lineTo(x -l, y);
+        canvasContext.lineTo(x -l*0.5, y-l*0.866);
+        canvasContext.lineTo(x +l*0.5, y-l*0.866);
+        canvasContext.closePath();
+        canvasContext.fill();
+        canvasContext.stroke();
+        if(field!="d"){
+            let number = numbers.pop();
+            canvasContext.font = "50px Arial";
+            canvasContext.fillStyle = (number==="6" || number==="8")? "#f00":"#000";
+            canvasContext.fillText(number, x-17,y+17);
+            
+        }
+        canvasContext.closePath();
+    }
+
+</script>
 <script>
     var roomName = {{ room_name_json }};
 
