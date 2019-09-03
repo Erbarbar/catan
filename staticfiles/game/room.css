@@ -1,0 +1,79 @@
+body{
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#container{
+    position: relative;
+    height: 100vh;
+    padding-left: 100vh;
+    overflow: hidden;
+    display: inline-block;
+    background-color: cyan;
+    float: left;
+}
+
+#chat{
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+    display: inline-block;
+    background-color: yellow;
+    float:left;
+}
+
+.player_area{
+    position: absolute;
+    display: inline-block;
+    width: 70%;
+    height: 15%;
+    background-color: gray;
+}
+
+#player_area_top{
+    top: 0%;
+    left: 15%;
+}
+#player_area_bottom{
+    bottom: 0%;
+    left: 15%;
+}
+
+#player_area_right{
+    transform: rotate(90deg);
+    top: 42.5%;
+    right: -27.5%;
+}
+#player_area_left{
+    transform: rotate(-90deg);
+    top: 42.5%;
+    left: -27.5%;
+}
+
+#board{
+    position: absolute;
+    display: inline-block;
+    width: 70%;
+    height: 70%;
+    top: 15%;
+    left: 15%;
+    background-color: cyan;
+}
+
+#board_canvas{
+    width: 100%;
+    height: 100%;
+    border: 1px solid black;
+}
+
+textarea{
+    resize: none;
+}

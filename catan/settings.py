@@ -24,7 +24,7 @@ STATIC_URL = '/static/'
 
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'game/static'),
 )
 
 # Quick-start development settings - unsuitable for production
@@ -149,10 +149,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.2/howto/static-files/
-
-STATIC_URL = '/static/'
+LOGIN_URL = 'login' 
+LOGOUT_URL = 'logout'
 
 DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)

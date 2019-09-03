@@ -3,16 +3,23 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.utils.safestring import mark_safe
 from django.template.defaultfilters import slugify
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from .models import Room
 from .forms import RoomForm
 import json
 import random
 
+
+
+
 def index(request):
     return render(request, 'game/index.html', {})
 
+@login_required
 def room(request, room_name):
     room_name = slugify(room_name)
+
     if not Room.objects.filter(name=room_name).exists():
         createRoom(room_name)
 
@@ -28,15 +35,13 @@ def room(request, room_name):
             room.villagesY = form.cleaned_data['villagesY']
             room.save()
             form.save()
-
     else:
         form = RoomForm(instance=room)
+
     return render(request, 'game/room.html', {
         'room': room,
         'form': form
         })
-
-
 
 
 def createRoom(room_name):
