@@ -96,7 +96,7 @@ var desert_image = document.getElementById("desert_image");
             villagesY_string += Math.floor(y);
 
             sendMessage({
-                'user': '{{user}}',
+                'user': '{{user.id}}',
                 'message': 'addVillage',
                 'x': Math.floor(x),
                 'y': Math.floor(y)
@@ -264,14 +264,16 @@ var desert_image = document.getElementById("desert_image");
     chatSocket.onmessage = function(e) {
         var data = JSON.parse(e.data);
         var sender = data['user'];
-        if ({{user.pk}}==sender) {
+        if ({{user.id}}==sender) {
             console.log("Self message!!!");
         }
         //document.querySelector('#chat-log').value += (message + '\n');
     };
 
     function sendMessage(json_message){
-        chatSocket.send(JSON.stringify(json_message));
+        var message = JSON.stringify(json_message);
+        console.log(message);
+        chatSocket.send(message);
     }
 
 </script>
