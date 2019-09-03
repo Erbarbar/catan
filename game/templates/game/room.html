@@ -87,21 +87,25 @@ var desert_image = document.getElementById("desert_image");
 
         board_canvas.addEventListener("click", function(eventInfo){
             var [x, y] = getCursorPosition(board_canvas, eventInfo);
+            x = Math.floor(x);
+            y = Math.floor(y);
             var ctx = board_canvas.getContext("2d");
 
             if(villagesX_string != "")
                 villagesX_string += ",";
-            villagesX_string += Math.floor(x);
+            villagesX_string += x;
+            villagesX.push(x);
 
             if(villagesY_string != "")
                 villagesY_string += ",";
-            villagesY_string += Math.floor(y);
+            villagesY_string += y;
+            villagesY.push(y);
 
             sendMessage({
                 'user': '{{user.id}}',
                 'message': 'addVillage',
-                'x': Math.floor(x),
-                'y': Math.floor(y)
+                'x': x,
+                'y': y
             });
 
             clearBoard(ctx);
@@ -260,7 +264,8 @@ var desert_image = document.getElementById("desert_image");
 
     chatSocket.onmessage = function(e) {
         var data = JSON.parse(e.data);
-        var sender = data['user'];
+        var message = JSON.parse(data['message']);
+        var sender = message['user'];
         if ({{user.id}}==sender) {
             console.log("Self message!!!");
         }
