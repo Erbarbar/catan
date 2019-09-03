@@ -31,6 +31,10 @@
         <img src="{% static 'game/hills.png' %}" id="hills_image">
         <img src="{% static 'game/mountains.png' %}" id="mountains_image">
         <img src="{% static 'game/desert.png' %}" id="desert_image">
+        <form id="form_id" method=POST>
+            {% csrf_token %}
+            {{form.as_p}}
+        </form>
     </div
 ></body>
 <script>
@@ -39,11 +43,26 @@ var cos30 = 0.866025,
     tan30 = 0.577350,
     cos60 = 0.5,
     sin60 = 0.866025,
-    radius = 80,
-    fields = randomise_array(["l", "l", "l", "l", "b", "b", "b", "g", "g", "g", "g", "w", "w", "w", "w", "o", "o", "o", "d"]),
-    numbers= randomise_array(["2", "3", "3", "4", "4", "5", "5", "6", "6", "8", "8", "9", "9", "10", "10", "11", "11", "12"]),
-    villagesX = [],
+    radius = 100;
+var fields = "{{room.fields}}".split(",");
+var numbers = "{{room.numbers}}".split(",");
+var villagesX = "{{room.villagesX}}";
+var villagesY = "{{room.villagesY}}";
+if( villagesX == "None")
+    villagesX = [];
+else
+    villagesX = villagesX.split(',');
+if(villagesY == "None" )
     villagesY = [];
+else
+    villagesY = villagesY.split(',');
+
+console.log({
+    "fields": fields,
+    "numbers": numbers,
+    "villagesX": villagesX,
+    "villagesY": villagesY
+});
 var forest_image = document.getElementById("forest_image");
 var pasture_image = document.getElementById("pasture_image");
 var fields_image = document.getElementById("fields_image");
@@ -87,10 +106,22 @@ window.onload = function(){
             var ctx = board_canvas.getContext("2d");
             clearBoard(ctx);
 
-            villagesX.push(x);
-            villagesY.push(y);
+            villagesX_string = villagesX.toString();
+            villagesY_string = villagesY.toString();
 
-            drawBoard(ctx);
+            if(villagesX_string != "")
+                villagesX_string += ",";
+            villagesX_string += Math.floor(x);
+
+            if(villagesY_string != "")
+                villagesY_string += ",";
+            villagesY_string += Math.floor(y);
+
+            document.getElementById("id_villagesX").value = villagesX_string
+            document.getElementById("id_villagesY").value = villagesY_string;
+            document.getElementById("form_id").submit();
+
+            //drawBoard(ctx);
 
         });
     }
@@ -170,7 +201,7 @@ window.onload = function(){
         if(field=="d")
             img = desert_image;
 
-        canvasContext.drawImage(img, x-80,y-80,radius*2,radius*2);
+        canvasContext.drawImage(img, x-radius,y-radius,radius*2,radius*2);
 
         canvasContext.beginPath();
         canvasContext.moveTo(x + l, y);
@@ -218,7 +249,7 @@ window.onload = function(){
 
 </script>
 <script>
-    var roomName = {{ room_name_json }};
+    var roomName = "{{ room.name }}";
 
     var chatSocket = new WebSocket(
         'wss://' + window.location.host +
