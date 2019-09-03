@@ -40,7 +40,8 @@ def room(request, room_name):
 
     return render(request, 'game/room.html', {
         'room': room,
-        'form': form
+        'form': form,
+        'user': request.user
         })
 
 
