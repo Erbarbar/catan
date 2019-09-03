@@ -24,18 +24,34 @@
         ><input id="chat-message-input" type="text" size="36"/
         ><input id="chat-message-submit" type="button" value="Send"/
     ></div
+    ><div style="display: none;">
+        <img src="{% static 'game/forest.png' %}" id="forest_image">
+        <img src="{% static 'game/pasture.png' %}" id="pasture_image">
+        <img src="{% static 'game/fields.png' %}" id="fields_image">
+        <img src="{% static 'game/hills.png' %}" id="hills_image">
+        <img src="{% static 'game/mountains.png' %}" id="mountains_image">
+        <img src="{% static 'game/desert.png' %}" id="desert_image">
+    </div
 ></body>
 <script>
+var cos30 = 0.866025,
+    sin30 = 0.5,
+    tan30 = 0.577350,
+    cos60 = 0.5,
+    sin60 = 0.866025,
+    radius = 80,
+    fields = randomise_array(["l", "l", "l", "l", "b", "b", "b", "g", "g", "g", "g", "w", "w", "w", "w", "o", "o", "o", "d"]),
+    numbers= randomise_array(["2", "3", "3", "4", "4", "5", "5", "6", "6", "8", "8", "9", "9", "10", "10", "11", "11", "12"]),
+    villagesX = [],
+    villagesY = [];
+var forest_image = document.getElementById("forest_image");
+var pasture_image = document.getElementById("pasture_image");
+var fields_image = document.getElementById("fields_image");
+var hills_image = document.getElementById("hills_image");
+var mountains_image = document.getElementById("mountains_image");
+var desert_image = document.getElementById("desert_image");
+window.onload = function(){
     var board_canvas = document.getElementById("board_canvas");
-
-    var cos30 = 0.866025,
-        sin30 = 0.5,
-        tan30 = 0.577350,
-        cos60 = 0.5,
-        sin60 = 0.866025,
-        radius = 80,
-        fields = randomise_array(["l", "l", "l", "l", "b", "b", "b", "g", "g", "g", "g", "w", "w", "w", "w", "o", "o", "o", "d"]),
-        numbers= randomise_array(["2", "3", "3", "4", "4", "5", "5", "6", "6", "8", "8", "9", "9", "10", "10", "11", "11", "12"]);
 
     if (board_canvas.getContext){
         var ctx = board_canvas.getContext('2d');
@@ -51,44 +67,37 @@
         ctx.closePath();
 
 
-        ctx.fillStyle = "#FF0000";
-        ctx.strokeStyle = "#00FF00";
-        ctx.lineWidth = 20;
-
-
 
         drawBoard(ctx);
-
+    }
         board_canvas.addEventListener("mousemove", function(eventInfo) {
-            return;
+            
             var x,
-                y,
-                hexX,
-                hexY,
-                screenX,
-                screenY;
+                y;
 
             x = eventInfo.offsetX || eventInfo.layerX;
             y = eventInfo.offsetY || eventInfo.layerY;
-            x*=2;
-            y*=2;
-            hexY = Math.floor(y / (hexHeight + sideLength));
-            hexX = Math.floor((x - (hexY % 2) * hexRadius) / hexRectangleWidth);
+            x*=2.14;
+            y*=2.14;
 
-            screenX = hexX * hexRectangleWidth + ((hexY % 2) * hexRadius);
-            screenY = hexY * (hexHeight + sideLength);
 
             ctx.clearRect(0, 0, board_canvas.width, board_canvas.height);
 
-            drawBoard(ctx, boardWidth, boardHeight);
+            drawBoard(ctx);
+            drawVillage(ctx, x, y, "red");
+        });
 
-            // Check if the mouse's coords are on the board
-            if(hexX >= 0 && hexX < boardWidth) {
-                if(hexY >= 0 && hexY < boardHeight) {
-                    ctx.fillStyle = "#000000";
-                    //drawHexagon(ctx, screenX, screenY, true);
-                }
-            }
+        board_canvas.addEventListener("click", function(eventInfo){
+            var x,
+                y;
+
+            x = eventInfo.offsetX || eventInfo.layerX;
+            y = eventInfo.offsetY || eventInfo.layerY;
+            x*=2.14;
+            y*=2.14;
+
+            villagesX.push(x);
+            villagesY.push(y);
         });
     }
 
@@ -107,49 +116,55 @@
         let x = 500,
             y= 500;
 
-        drawHexagon(canvasContext, x,y, 0);
+        let temp_fields = fields.slice();
+        let temp_numbers = numbers.slice();
 
-        drawHexagon(canvasContext, x+1*radius*cos30/tan30, y-1*radius*sin30/tan30, 1);
-        drawHexagon(canvasContext, x+1*radius*cos30/tan30, y+1*radius*sin30/tan30, 2);
-        drawHexagon(canvasContext, x, y+1*radius/tan30, 3);
-        drawHexagon(canvasContext, x-1*radius*cos30/tan30, y+1*radius*sin30/tan30, 4);
-        drawHexagon(canvasContext, x-1*radius*cos30/tan30, y-1*radius*sin30/tan30, 5);
-        drawHexagon(canvasContext, x, y-1*radius/tan30, 6);
+        drawHexagon(canvasContext, x,y, 0, temp_fields, temp_numbers);
 
-        drawHexagon(canvasContext, x+1*radius*cos30/tan30, y-1*radius*sin30/tan30-1*radius/tan30, 7);
-        drawHexagon(canvasContext, x+2*radius*cos30/tan30, y-2*radius*sin30/tan30, 8);
-        drawHexagon(canvasContext, x+2*radius+2*radius*sin30, y, 9);
-        drawHexagon(canvasContext, x+2*radius*cos30/tan30, y+2*radius*sin30/tan30, 10);
-        drawHexagon(canvasContext, x+1*radius*cos30/tan30, y+1*radius*sin30/tan30+1*radius/tan30, 11);
-        drawHexagon(canvasContext, x, y+2*radius/tan30, 12);
-        drawHexagon(canvasContext, x-1*radius*cos30/tan30, y+1*radius*sin30/tan30+1*radius/tan30, 13);
-        drawHexagon(canvasContext, x-2*radius*cos30/tan30, y+2*radius*sin30/tan30, 14);
-        drawHexagon(canvasContext, x-2*radius-2*radius*sin30, y, 15);
-        drawHexagon(canvasContext, x-2*radius*cos30/tan30, y-2*radius*sin30/tan30, 16);
-        drawHexagon(canvasContext, x-1*radius*cos30/tan30, y-1*radius*sin30/tan30-1*radius/tan30, 17);
-        drawHexagon(canvasContext, x, y-2*radius/tan30, 18);
+        drawHexagon(canvasContext, x+1*radius*cos30/tan30, y-1*radius*sin30/tan30, 1, temp_fields, temp_numbers);
+        drawHexagon(canvasContext, x+1*radius*cos30/tan30, y+1*radius*sin30/tan30, 2, temp_fields, temp_numbers);
+        drawHexagon(canvasContext, x, y+1*radius/tan30, 3, temp_fields, temp_numbers);
+        drawHexagon(canvasContext, x-1*radius*cos30/tan30, y+1*radius*sin30/tan30, 4, temp_fields, temp_numbers);
+        drawHexagon(canvasContext, x-1*radius*cos30/tan30, y-1*radius*sin30/tan30, 5, temp_fields, temp_numbers);
+        drawHexagon(canvasContext, x, y-1*radius/tan30, 6, temp_fields, temp_numbers);
 
+        drawHexagon(canvasContext, x+1*radius*cos30/tan30, y-1*radius*sin30/tan30-1*radius/tan30, 7, temp_fields, temp_numbers);
+        drawHexagon(canvasContext, x+2*radius*cos30/tan30, y-2*radius*sin30/tan30, 8, temp_fields, temp_numbers);
+        drawHexagon(canvasContext, x+2*radius+2*radius*sin30, y, 9, temp_fields, temp_numbers);
+        drawHexagon(canvasContext, x+2*radius*cos30/tan30, y+2*radius*sin30/tan30, 10, temp_fields, temp_numbers);
+        drawHexagon(canvasContext, x+1*radius*cos30/tan30, y+1*radius*sin30/tan30+1*radius/tan30, 11, temp_fields, temp_numbers);
+        drawHexagon(canvasContext, x, y+2*radius/tan30, 12, temp_fields, temp_numbers);
+        drawHexagon(canvasContext, x-1*radius*cos30/tan30, y+1*radius*sin30/tan30+1*radius/tan30, 13, temp_fields, temp_numbers);
+        drawHexagon(canvasContext, x-2*radius*cos30/tan30, y+2*radius*sin30/tan30, 14, temp_fields, temp_numbers);
+        drawHexagon(canvasContext, x-2*radius-2*radius*sin30, y, 15, temp_fields, temp_numbers);
+        drawHexagon(canvasContext, x-2*radius*cos30/tan30, y-2*radius*sin30/tan30, 16, temp_fields, temp_numbers);
+        drawHexagon(canvasContext, x-1*radius*cos30/tan30, y-1*radius*sin30/tan30-1*radius/tan30, 17, temp_fields, temp_numbers);
+        drawHexagon(canvasContext, x, y-2*radius/tan30, 18, temp_fields, temp_numbers);
+
+        for(var i = 0; i < villagesX.length; i++){
+            drawVillage(canvasContext, villagesX[i], villagesY[i], "green");
+        }
+        
     }
 
-    function drawHexagon(canvasContext, x, y, index) {           
+    function drawHexagon(canvasContext, x, y, index, temp_fields, temp_numbers) {           
         let l = radius; 
-
-        field = fields.pop();
+        let img = pasture_image;
+        let field = temp_fields.pop();
         if(field=="l")
-            canvasContext.fillStyle = "DarkGreen ";
+            img = forest_image;
         if(field=="b")
-            canvasContext.fillStyle = "Coral";
+            img = hills_image;
         if(field=="g")
-            canvasContext.fillStyle = "Gold";
+            img = fields_image;
         if(field=="w")
-            canvasContext.fillStyle = "LawnGreen";
+            img = pasture_image;
         if(field=="o")
-            canvasContext.fillStyle = "Silver";
+            img = mountains_image;
         if(field=="d")
-            canvasContext.fillStyle = "PaleGoldenRod";
+            img = desert_image;
 
-        console.log(field);
-        canvasContext.strokeStyle = "#000";
+        canvasContext.drawImage(img, x-80,y-80,radius*2,radius*2);
 
         canvasContext.beginPath();
         canvasContext.moveTo(x + l, y);
@@ -159,17 +174,40 @@
         canvasContext.lineTo(x -l*0.5, y-l*0.866);
         canvasContext.lineTo(x +l*0.5, y-l*0.866);
         canvasContext.closePath();
-        canvasContext.fill();
+        //canvasContext.fill();
+
+        canvasContext.strokeStyle = "#eee";
+        canvasContext.lineWidth=20;
         canvasContext.stroke();
         if(field!="d"){
-            let number = numbers.pop();
-            canvasContext.font = "50px Arial";
+            canvasContext.beginPath();
+            canvasContext.arc(x,y,l/3.5,0,2*Math.PI);
+            canvasContext.fillStyle = "white";
+            canvasContext.fill();
+            canvasContext.strokeStyle = "#000";
+            canvasContext.lineWidth=2;
+            canvasContext.stroke();
+
+            let number = temp_numbers.pop();
+            canvasContext.font = "bold 30px Arial";
             canvasContext.fillStyle = (number==="6" || number==="8")? "#f00":"#000";
-            ctx.textAlign = 'center';
-            canvasContext.fillText(number, x-17,y+17);
+            canvasContext.textAlign = 'center';
+            canvasContext.textBaseline = "middle";
+            canvasContext.fillText(number, x,y);
             
         }
         canvasContext.closePath();
+    }
+
+    function drawVillage(ctx, x, y, color){
+        ctx.beginPath();
+        ctx.fillStyle = color;
+        ctx.strokeStyle = "#000";
+        ctx.lineWidth = 2;
+        ctx.arc(x,y,25,0,2*Math.PI);
+        ctx.fill();
+        ctx.stroke();
+        ctx.closePath();
     }
 
 </script>
