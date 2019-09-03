@@ -271,7 +271,7 @@ var desert_image = document.getElementById("desert_image");
     };
 
     function sendMessage(json_message){
-        var message = JSON.stringify(json_message);
+        var message = "{'message':" + JSON.stringify(json_message) + "}";
         console.log(message);
         chatSocket.send(message);
     }
