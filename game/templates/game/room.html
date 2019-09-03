@@ -17,7 +17,9 @@
             </canvas
         ></div
         ><div id="player_area_right" class="player_area"></div
-        ><div id="player_area_bottom" class="player_area"></div
+        ><div id="player_area_bottom" class="player_area">
+            <button id="end_turn" onclick="updateDatabase();"> End Turn </button>
+        </div
     ></div
     ><div id="chat" 
         ><textarea id="chat-log" cols="40" rows="45"></textarea><br/
@@ -237,11 +239,6 @@ var desert_image = document.getElementById("desert_image");
 
     chatSocket.onclose = function(e) {
         console.error('Chat socket closed unexpectedly');
-
-        document.getElementById("id_villagesX").value = villagesX_string
-        document.getElementById("id_villagesY").value = villagesY_string;
-        document.getElementById("form_id").submit();
-        console.log("villagesX_string");
     };
 
     document.querySelector('#chat-message-input').focus();
@@ -274,6 +271,12 @@ var desert_image = document.getElementById("desert_image");
         var message = "{'message':" + JSON.stringify(json_message) + "}";
         console.log(message);
         chatSocket.send(message);
+    }
+
+    function updateDatabase(){
+        document.getElementById("id_villagesX").value = villagesX_string;
+        document.getElementById("id_villagesY").value = villagesY_string;
+        document.getElementById("form_id").submit();
     }
 
 </script>
