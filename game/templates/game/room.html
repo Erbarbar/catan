@@ -253,13 +253,13 @@ var desert_image = document.getElementById("desert_image");
     };
 
     document.querySelector('#chat-message-submit').onclick = function(e) {
-        var messageInputDom = document.querySelector('#chat-message-input');
-        var message = messageInputDom.value;
-        chatSocket.send(JSON.stringify({
-            'message': message
-        }));
+        // var messageInputDom = document.querySelector('#chat-message-input');
+        // var message = messageInputDom.value;
+        // chatSocket.send(JSON.stringify({
+        //     'message': message
+        // }));
 
-        messageInputDom.value = '';
+        // messageInputDom.value = '';
     };
 
     chatSocket.onmessage = function(e) {
