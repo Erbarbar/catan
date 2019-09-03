@@ -129,18 +129,6 @@
         drawHexagon(canvasContext, x-1*radius*cos30/tan30, y-1*radius*sin30/tan30-1*radius/tan30, 17);
         drawHexagon(canvasContext, x, y-2*radius/tan30, 18);
 
-
-
-
-        //     for(j = 0; j < height; ++j) {
-        //         drawHexagon(
-        //             ctx, 
-        //             i * hexRectangleWidth + ((j % 2) * hexRadius), 
-        //             j * (sideLength + hexHeight), 
-        //             false
-        //         );
-        //     }
-        // }
     }
 
     function drawHexagon(canvasContext, x, y, index) {           
@@ -177,6 +165,7 @@
             let number = numbers.pop();
             canvasContext.font = "50px Arial";
             canvasContext.fillStyle = (number==="6" || number==="8")? "#f00":"#000";
+            ctx.textAlign = 'center';
             canvasContext.fillText(number, x-17,y+17);
             
         }

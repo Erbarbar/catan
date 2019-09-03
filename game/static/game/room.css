@@ -27,7 +27,7 @@ body{
     overflow: hidden;
     display: inline-block;
     background-color: yellow;
-    float:right;
+    float:left;
 }
 
 .player_area{
