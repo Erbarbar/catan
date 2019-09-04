@@ -278,12 +278,16 @@ var desert_image = document.getElementById("desert_image");
         }
         if(message['message'] == 'addVillage'){
             addVillage(message['x'],message['y']);
+            clearBoard(ctx);
+            drawBoard(ctx);
         }
         //document.querySelector('#chat-log').value += (message + '\n');
     };
 
     chatSocket.onopen = function(e){
         console.log(chatSocket);
+        clearBoard(ctx);
+        drawBoard(ctx);
     };
 
     function sendMessage(json_message){
