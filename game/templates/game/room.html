@@ -276,6 +276,8 @@ var desert_image = document.getElementById("desert_image");
             console.log("Self message!!!");
             return;
         }
+        var board_canvas = document.getElementById("board_canvas");
+        var ctx = board_canvas.getContext('2d');
         if(message['message'] == 'addVillage'){
             addVillage(message['x'],message['y']);
             clearBoard(ctx);
