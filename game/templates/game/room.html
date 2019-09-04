@@ -91,15 +91,7 @@ var desert_image = document.getElementById("desert_image");
             y = Math.floor(y);
             var ctx = board_canvas.getContext("2d");
 
-            if(villagesX_string != "")
-                villagesX_string += ",";
-            villagesX_string += x;
-            villagesX.push(x);
-
-            if(villagesY_string != "")
-                villagesY_string += ",";
-            villagesY_string += y;
-            villagesY.push(y);
+            addVillage(x, y);
 
             sendMessage({
                 'user': '{{user.id}}',
@@ -111,6 +103,18 @@ var desert_image = document.getElementById("desert_image");
             clearBoard(ctx);
             drawBoard(ctx);
         });
+    }
+
+    function addVillage(x, y){
+            if(villagesX_string != "")
+                villagesX_string += ",";
+            villagesX_string += x;
+            villagesX.push(x);
+
+            if(villagesY_string != "")
+                villagesY_string += ",";
+            villagesY_string += y;
+            villagesY.push(y);
     }
 
     function getCursorPosition(canvas, event) {
@@ -270,6 +274,10 @@ var desert_image = document.getElementById("desert_image");
         var sender = message['user'];
         if ({{user.id}}==sender) {
             console.log("Self message!!!");
+            return;
+        }
+        if(message['message'] == 'addVillage'){
+            addVillage(message['x'],message['y']);
         }
         //document.querySelector('#chat-log').value += (message + '\n');
     };
