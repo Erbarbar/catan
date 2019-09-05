@@ -152,4 +152,4 @@ USE_TZ = True
 LOGIN_URL = 'login' 
 LOGOUT_URL = 'logout'
 
-# DATABASES['default'] = dj_database_url.config(ssl_require=True)
+DATABASES['default'] = dj_database_url.config(ssl_require=True)
