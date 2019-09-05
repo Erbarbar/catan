@@ -274,7 +274,7 @@ var desert_image = document.getElementById("desert_image");
         var message = data['message'];
         console.log(message);
         var sender = message['user'];
-        if ({{user}}==sender) {
+        if ('{{user}}'==sender) {
             console.log("Self message!!!");
             return;
         }
