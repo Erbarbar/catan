@@ -262,12 +262,15 @@ var desert_image = document.getElementById("desert_image");
     document.querySelector('#chat-message-submit').onclick = function(e) {
         var messageInputDom = document.querySelector('#chat-message-input');
         var message = messageInputDom.value;
+        var timestamp = Date.now();
+        console.log(timestamp);
         sendMessage({
             'user': '{{user}}',
             'message': 'sendChat',
-            'chat': message
+            'chat': message,
+            'timestamp': timestamp
         });
-        var chat_entry = ("[{{user}}]: " + message + '\n');
+        var chat_entry = ("(" + timestamp + ")[{{user}}]: " + message + '\n');
         document.querySelector('#chat-log').value += chat_entry;
         chat_messages += chat_entry;
         messageInputDom.value = '';
@@ -290,7 +293,8 @@ var desert_image = document.getElementById("desert_image");
             case 'sendChat':
                 var chat_message = message['chat'];
                 var chat_sender = message['user'];
-                var chat_entry = ("[" + chat_sender + "]: " + chat_message + '\n');
+                var chat_timestamp = message['timestamp'];
+                var chat_entry = ("(" + chat_timestamp + ")[" + chat_sender + "]: " + chat_message + '\n');
                 document.querySelector('#chat-log').value += chat_entry;
                 chat_messages += chat_entry;
                 break;
@@ -305,7 +309,7 @@ var desert_image = document.getElementById("desert_image");
 
     chatSocket.onopen = function(e){
         console.log(chatSocket);
-        document.querySelector('#chat-log').value = chat_messages;
+        document.querySelector('#chat-log').value = chat_messages + '\n';
         var board_canvas = document.getElementById("board_canvas");
         var ctx = board_canvas.getContext('2d');
         clearBoard(ctx);
