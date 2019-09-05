@@ -257,13 +257,15 @@ var desert_image = document.getElementById("desert_image");
     };
 
     document.querySelector('#chat-message-submit').onclick = function(e) {
-        // var messageInputDom = document.querySelector('#chat-message-input');
-        // var message = messageInputDom.value;
-        // chatSocket.send(JSON.stringify({
-        //     'message': message
-        // }));
-
-        // messageInputDom.value = '';
+        var messageInputDom = document.querySelector('#chat-message-input');
+        var message = messageInputDom.value;
+        sendMessage({
+            'user': '{{user.id}}',
+            'message': 'sendChat',
+            'chat': message
+        });
+        document.querySelector('#chat-log').value += ("<span style='color:red;'>[" + {{user.id}} + "]:</span> " + message + '\n');
+        messageInputDom.value = '';
     };
 
     chatSocket.onmessage = function(e) {
@@ -278,10 +280,19 @@ var desert_image = document.getElementById("desert_image");
         }
         var board_canvas = document.getElementById("board_canvas");
         var ctx = board_canvas.getContext('2d');
-        if(message['message'] == 'addVillage'){
-            addVillage(message['x'],message['y']);
-            clearBoard(ctx);
-            drawBoard(ctx);
+
+        switch(message['message']){
+            case 'sendChat':
+                var chat_message = message['chat'];
+                var chat_sender = message['user'];
+                document.querySelector('#chat-log').value += ("<span style='color:red;'>[" + chat_sender + "]:</span> " + chat_message + '\n');
+
+                break;
+            case 'addVillage':
+                addVillage(message['x'],message['y']);
+                clearBoard(ctx);
+                drawBoard(ctx);
+                break;
         }
         //document.querySelector('#chat-log').value += (message + '\n');
     };
