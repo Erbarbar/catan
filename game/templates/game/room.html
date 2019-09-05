@@ -66,6 +66,9 @@ if(villagesY == "None" )
 else
     villagesY = villagesY.split(',');
 
+var chat_messages = '{{room.chat}}';
+
+
 var forest_image = document.getElementById("forest_image");
 var pasture_image = document.getElementById("pasture_image");
 var fields_image = document.getElementById("fields_image");
@@ -264,7 +267,9 @@ var desert_image = document.getElementById("desert_image");
             'message': 'sendChat',
             'chat': message
         });
-        document.querySelector('#chat-log').value += ("[{{user}}]: " + message + '\n');
+        var chat_entry = ("[{{user}}]: " + message + '\n');
+        document.querySelector('#chat-log').value += chat_entry;
+        chat_messages += chat_entry;
         messageInputDom.value = '';
     };
 
@@ -285,8 +290,9 @@ var desert_image = document.getElementById("desert_image");
             case 'sendChat':
                 var chat_message = message['chat'];
                 var chat_sender = message['user'];
-                document.querySelector('#chat-log').value += ("[" + chat_sender + "]: " + chat_message + '\n');
-
+                var chat_entry = ("[" + chat_sender + "]: " + chat_message + '\n');
+                document.querySelector('#chat-log').value += chat_entry;
+                chat_messages += chat_entry;
                 break;
             case 'addVillage':
                 addVillage(message['x'],message['y']);
@@ -314,6 +320,7 @@ var desert_image = document.getElementById("desert_image");
     function updateDatabase(){
         document.getElementById("id_villagesX").value = villagesX_string;
         document.getElementById("id_villagesY").value = villagesY_string;
+        document.getElementById("id_chat").value = chat_messages;
         document.getElementById("form_id").submit();
     }
 

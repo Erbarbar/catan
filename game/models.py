@@ -11,6 +11,8 @@ class Room(models.Model):
     villagesX = models.CharField(max_length=1000, null=True, blank=True)
     villagesY = models.CharField(max_length=1000, null=True, blank=True)
 
+    chat = models.TextField(null=True, blank=True)
+
     def __str__(self):
         return "%s" % (self.name)
 
