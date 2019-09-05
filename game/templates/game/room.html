@@ -66,7 +66,10 @@ if(villagesY == "None" )
 else
     villagesY = villagesY.split(',');
 
-var chat_messages = '{{room.chat}}';
+var chat_messages = '{{room.chat|safe}}';
+if(chat_messages=="None")
+    chat_messages="";
+
 
 
 var forest_image = document.getElementById("forest_image");
