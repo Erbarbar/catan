@@ -305,6 +305,7 @@ var desert_image = document.getElementById("desert_image");
 
     chatSocket.onopen = function(e){
         console.log(chatSocket);
+        document.querySelector('#chat-log').value = chat_messages;
         var board_canvas = document.getElementById("board_canvas");
         var ctx = board_canvas.getContext('2d');
         clearBoard(ctx);
