@@ -264,7 +264,7 @@ var desert_image = document.getElementById("desert_image");
             'message': 'sendChat',
             'chat': message
         });
-        document.querySelector('#chat-log').value += ("[" + {{user}} + "]: " + message + '\n');
+        document.querySelector('#chat-log').value += ("[{{user}}]: " + message + '\n');
         messageInputDom.value = '';
     };
 
