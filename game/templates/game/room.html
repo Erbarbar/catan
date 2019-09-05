@@ -262,7 +262,9 @@ var desert_image = document.getElementById("desert_image");
     document.querySelector('#chat-message-submit').onclick = function(e) {
         var messageInputDom = document.querySelector('#chat-message-input');
         var message = messageInputDom.value;
-        var timestamp = Date.now();
+        var d = Date.now();
+        var timestamp = d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
+
         console.log(timestamp);
         sendMessage({
             'user': '{{user}}',
