@@ -11,6 +11,5 @@ class RoomForm(forms.ModelForm):
             'fields', 
             'numbers',
             'villagesX', 
-            'villagesY',
-            'chat'
+            'villagesY'
         ) 
