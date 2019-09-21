@@ -53,6 +53,15 @@ var numbers = "{{room.numbers}}".split(",");
 var villagesX_string = "{{room.villagesX}}";
 var villagesY_string = "{{room.villagesY}}";
 
+if (villagesX_string == "None"){
+    console.log(villagesX_string);
+    villagesX_string = "";
+}
+if (villagesY_string == "None"){
+    console.log(villagesY_string);
+    villagesY_string = "";
+}
+
 var villagesX = villagesX_string;
 var villagesY = villagesY_string;
 
