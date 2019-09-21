@@ -66,9 +66,7 @@ if(villagesY == "None" )
 else
     villagesY = villagesY.split(',');
 
-var chat_messages = '{{room.chat|safe}}';
-if(chat_messages=="None")
-    chat_messages="";
+var chat_messages = "";
 
 
 
@@ -314,7 +312,6 @@ var desert_image = document.getElementById("desert_image");
 
     chatSocket.onopen = function(e){
         console.log(chatSocket);
-        document.querySelector('#chat-log').value = chat_messages + '\n';
         var board_canvas = document.getElementById("board_canvas");
         var ctx = board_canvas.getContext('2d');
         clearBoard(ctx);
