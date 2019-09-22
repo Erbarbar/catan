@@ -9,15 +9,15 @@
 </head>
 <body
     ><div id="container"
-        ><div id="player_area_top" class="player_area"></div
-        ><div id="player_area_left" class="player_area"></div
+        ><div id="player_area_top" class="player_area" onclick="chooseColor('red')"></div
+        ><div id="player_area_left" class="player_area" onclick="chooseColor('blue')"></div
         ><div id="board"
             ><canvas id="board_canvas" width="1000px" height="1000px">
                 
             </canvas
         ></div
-        ><div id="player_area_right" class="player_area"></div
-        ><div id="player_area_bottom" class="player_area">
+        ><div id="player_area_right" class="player_area" onclick="chooseColor('green')"></div
+        ><div id="player_area_bottom" class="player_area" onclick="chooseColor('white')">
             <button id="end_turn" onclick="updateDatabase();"> End Turn </button>
         </div
     ></div
@@ -26,7 +26,7 @@
         ><input id="chat-message-input" type="text" size="36"/
         ><input id="chat-message-submit" type="button" value="Send"/
     ></div
-    ><div style="display: none;">
+    ><div style="display: block;">
         <img src="{% static 'game/forest.png' %}" id="forest_image">
         <img src="{% static 'game/pasture.png' %}" id="pasture_image">
         <img src="{% static 'game/fields.png' %}" id="fields_image">
@@ -37,9 +37,12 @@
             {% csrf_token %}
             {{form.as_p}}
         </form>
+        <button>choose white</button>
     </div
 ></body>
 <script>
+
+
 var cos30 = 0.866025,
     sin30 = 0.5,
     tan30 = 0.577350,
@@ -74,6 +77,10 @@ if(villagesY == "" )
     villagesY = [];
 else
     villagesY = villagesY.split(',');
+
+
+
+
 
 var chat_messages = "";
 
@@ -116,6 +123,19 @@ var desert_image = document.getElementById("desert_image");
             clearBoard(ctx);
             drawBoard(ctx);
         });
+
+
+    }
+
+
+    function chooseColor(choice){
+        console.log(choice);
+        var field = document.getElementById("id_" + choice + "_player");
+        for (var i=0; i < field.options.length; i++){
+            if("{{user}}" == field.options[i].innerHTML){
+                field.options.selectedIndex = i;
+            }
+        }
     }
 
     function addVillage(x, y){
@@ -239,6 +259,7 @@ var desert_image = document.getElementById("desert_image");
         }
         canvasContext.closePath();
     }
+
 
     function drawVillage(ctx, x, y, color){
         ctx.beginPath();

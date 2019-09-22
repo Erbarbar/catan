@@ -35,27 +35,34 @@ body{
     display: inline-block;
     width: 70%;
     height: 15%;
-    background-color: gray;
 }
 
 #player_area_top{
     top: 0%;
     left: 15%;
+    background-color: darksalmon;
+    border: 3px solid red;
 }
 #player_area_bottom{
     bottom: 0%;
     left: 15%;
+    background-color: snow;
+    border: 3px solid black;
 }
 
 #player_area_right{
     transform: rotate(90deg);
     top: 42.5%;
     right: -27.5%;
+    background-color: lightgreen;
+    border: 3px solid green;
 }
 #player_area_left{
     transform: rotate(-90deg);
     top: 42.5%;
     left: -27.5%;
+    background-color: skyblue;
+    border: 3px solid blue;
 }
 
 #board{

@@ -26,6 +26,8 @@ def room(request, room_name):
     room = get_object_or_404(Room, name=room_name)
     form = RoomForm()
     if request.method == "POST":
+        print(request.POST)
+
         form = RoomForm(request.POST, instance=room)
         if form.is_valid():
             room.name = form.cleaned_data['name']
@@ -55,4 +57,5 @@ def createRoom(room_name):
     newRoom = Room(name=room_name, fields=fields, numbers=numbers)
     newRoom.save()
 
-    
+def createHand(color):
+    pass
