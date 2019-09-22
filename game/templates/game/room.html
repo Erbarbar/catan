@@ -79,13 +79,6 @@ else
     villagesY = villagesY.split(',');
 
 
-
-
-
-var chat_messages = "";
-
-
-
 var forest_image = document.getElementById("forest_image");
 var pasture_image = document.getElementById("pasture_image");
 var fields_image = document.getElementById("fields_image");
@@ -136,6 +129,7 @@ var desert_image = document.getElementById("desert_image");
                 field.options.selectedIndex = i;
             }
         }
+        document.querySelector('#chat-log').value += "[{{user}}] Is now " + choice + "!\n";
     }
 
     function addVillage(x, y){
@@ -295,8 +289,6 @@ var desert_image = document.getElementById("desert_image");
         var message = messageInputDom.value;
         var d = new Date;
         var timestamp = d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
-
-        console.log(timestamp);
         sendMessage({
             'user': '{{user}}',
             'message': 'sendChat',
@@ -305,7 +297,6 @@ var desert_image = document.getElementById("desert_image");
         });
         var chat_entry = ("(" + timestamp + ")[{{user}}]: " + message + '\n');
         document.querySelector('#chat-log').value += chat_entry;
-        chat_messages += chat_entry;
         messageInputDom.value = '';
     };
 
@@ -329,7 +320,6 @@ var desert_image = document.getElementById("desert_image");
                 var chat_timestamp = message['timestamp'];
                 var chat_entry = ("(" + chat_timestamp + ")[" + chat_sender + "]: " + chat_message + '\n');
                 document.querySelector('#chat-log').value += chat_entry;
-                chat_messages += chat_entry;
                 break;
             case 'addVillage':
                 addVillage(message['x'],message['y']);
