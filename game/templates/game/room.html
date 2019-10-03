@@ -26,7 +26,7 @@
         ><input id="chat-message-input" type="text" size="36"/
         ><input id="chat-message-submit" type="button" value="Send"/
     ></div
-    ><div style="display: block;">
+    ><div style="display: none;">
         <img src="{% static 'game/forest.png' %}" id="forest_image">
         <img src="{% static 'game/pasture.png' %}" id="pasture_image">
         <img src="{% static 'game/fields.png' %}" id="fields_image">
@@ -90,6 +90,7 @@ var desert_image = document.getElementById("desert_image");
     window.onload = function(){
         var board_canvas = document.getElementById("board_canvas");
 
+        console.log({{Room.red_player}});
         board_canvas.addEventListener("mousemove", function(eventInfo) {
             var [x,y] = getCursorPosition(board_canvas, eventInfo);
             var ctx = board_canvas.getContext('2d');

@@ -90,7 +90,7 @@ CHANNEL_LAYERS = {
     'default': {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [os.environ.get('REDIS_URL', 'redis://localhost:6379')] # HEROKU
+            "hosts": [('192.168.99.100', 32768)]    #local
         },
     }
 }
