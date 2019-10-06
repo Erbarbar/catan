@@ -89,8 +89,7 @@ var desert_image = document.getElementById("desert_image");
 
     window.onload = function(){
         var board_canvas = document.getElementById("board_canvas");
-        console.log("{{Room.white_player}}");
-        console.log("{{Room.red_player}}");
+        color = getColor();
         board_canvas.addEventListener("mousemove", function(eventInfo) {
             var [x,y] = getCursorPosition(board_canvas, eventInfo);
             var ctx = board_canvas.getContext('2d');
@@ -143,6 +142,37 @@ var desert_image = document.getElementById("desert_image");
         });
         updateDatabase();
         color = choice;
+    }
+
+    function getColor(){
+        var field = document.getElementById("id_red_player");
+        console.log("getColor()");
+        console.log("{{user}}");
+        console.log(field.options.selectedIndex);
+        return;
+        for (var i=0; i < field.options.length; i++){
+            if("{{user}}" == field.options[i].innerHTML){
+                field.options.selectedIndex = i;
+            }
+        }
+        var field = document.getElementById("id_green_player");
+        for (var i=0; i < field.options.length; i++){
+            if("{{user}}" == field.options[i].innerHTML){
+                field.options.selectedIndex = i;
+            }
+        }
+        var field = document.getElementById("id_blue_player");
+        for (var i=0; i < field.options.length; i++){
+            if("{{user}}" == field.options[i].innerHTML){
+                field.options.selectedIndex = i;
+            }
+        }
+        var field = document.getElementById("id_white_player");
+        for (var i=0; i < field.options.length; i++){
+            if("{{user}}" == field.options[i].innerHTML){
+                field.options.selectedIndex = i;
+            }
+        }
     }
 
     function addVillage(x, y){
