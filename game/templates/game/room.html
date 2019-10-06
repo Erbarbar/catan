@@ -89,8 +89,8 @@ var desert_image = document.getElementById("desert_image");
 
     window.onload = function(){
         var board_canvas = document.getElementById("board_canvas");
-
-        console.log({{Room.red_player}});
+        console.log("{{Room.white_player}}");
+        console.log("{{Room.red_player}}");
         board_canvas.addEventListener("mousemove", function(eventInfo) {
             var [x,y] = getCursorPosition(board_canvas, eventInfo);
             var ctx = board_canvas.getContext('2d');
