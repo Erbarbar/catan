@@ -9,16 +9,18 @@
 </head>
 <body
     ><div id="container"
-        ><div id="player_area_top" class="player_area" onclick="chooseColor('red')"></div
-        ><div id="player_area_left" class="player_area" onclick="chooseColor('blue')"></div
+        ><div id="player_area_top" class="player_area" onclick="chooseColor('red')"><button id="end_turn_red" style="display: none;" onclick="updateDatabase();"> End Turn </button></div
+        ><div id="player_area_left" class="player_area" onclick="chooseColor('blue')">
+            <button id="end_turn_blue" style="display: none;" onclick="updateDatabase();"> End Turn </button></div
         ><div id="board"
             ><canvas id="board_canvas" width="1000px" height="1000px">
                 
             </canvas
         ></div
-        ><div id="player_area_right" class="player_area" onclick="chooseColor('green')"></div
+        ><div id="player_area_right" class="player_area" onclick="chooseColor('green')">
+            <button id="end_turn_green" style="display: none;" onclick="updateDatabase();"> End Turn </button></div
         ><div id="player_area_bottom" class="player_area" onclick="chooseColor('white')">
-            <button id="end_turn" onclick="updateDatabase();"> End Turn </button>
+            <button id="end_turn_white" style="display: none;" onclick="updateDatabase();"> End Turn </button>
         </div
     ></div
     ><div id="chat" 
@@ -90,7 +92,10 @@ var desert_image = document.getElementById("desert_image");
     window.onload = function(){
         var board_canvas = document.getElementById("board_canvas");
         color = getColor();
-
+        if(color!="none"){
+            var end_turn_button = document.getElementById("end_turn_" + color);
+            end_turn_button.style.display = "block";
+        }
         board_canvas.addEventListener("mousemove", function(eventInfo) {
             if(color=="none")
                 return;
