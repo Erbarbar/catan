@@ -145,34 +145,21 @@ var desert_image = document.getElementById("desert_image");
     }
 
     function getColor(){
-        var field = document.getElementById("id_red_player");
         console.log("getColor()");
-        console.log("{{user}}");
-        console.log(field.options[field.options.selectedIndex].innerHTML);
-        return;
-        for (var i=0; i < field.options.length; i++){
-            if("{{user}}" == field.options[i].innerHTML){
-                field.options.selectedIndex = i;
-            }
-        }
+
+        var field = document.getElementById("id_red_player");
+        if(field.options[field.options.selectedIndex].innerHTML == "{{user}}")
+            return "red";
         var field = document.getElementById("id_green_player");
-        for (var i=0; i < field.options.length; i++){
-            if("{{user}}" == field.options[i].innerHTML){
-                field.options.selectedIndex = i;
-            }
-        }
+        if(field.options[field.options.selectedIndex].innerHTML == "{{user}}")
+            return "green";
         var field = document.getElementById("id_blue_player");
-        for (var i=0; i < field.options.length; i++){
-            if("{{user}}" == field.options[i].innerHTML){
-                field.options.selectedIndex = i;
-            }
-        }
+        if(field.options[field.options.selectedIndex].innerHTML == "{{user}}")
+            return "blue";
         var field = document.getElementById("id_white_player");
-        for (var i=0; i < field.options.length; i++){
-            if("{{user}}" == field.options[i].innerHTML){
-                field.options.selectedIndex = i;
-            }
-        }
+        if(field.options[field.options.selectedIndex].innerHTML == "{{user}}")
+            return "white";
+        return "none";
     }
 
     function addVillage(x, y){
