@@ -148,7 +148,7 @@ var desert_image = document.getElementById("desert_image");
         var field = document.getElementById("id_red_player");
         console.log("getColor()");
         console.log("{{user}}");
-        console.log(field.options.selectedIndex);
+        console.log(field.options[field.options.selectedIndex].innerHTML);
         return;
         for (var i=0; i < field.options.length; i++){
             if("{{user}}" == field.options[i].innerHTML){
