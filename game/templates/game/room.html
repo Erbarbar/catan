@@ -57,11 +57,9 @@ var villagesX_string = "{{room.villagesX}}";
 var villagesY_string = "{{room.villagesY}}";
 
 if (villagesX_string == "None"){
-    console.log(villagesX_string);
     villagesX_string = "";
 }
 if (villagesY_string == "None"){
-    console.log(villagesY_string);
     villagesY_string = "";
 }
 
@@ -77,6 +75,8 @@ if(villagesY == "" )
     villagesY = [];
 else
     villagesY = villagesY.split(',');
+
+var color = "none";
 
 
 var forest_image = document.getElementById("forest_image");
@@ -123,6 +123,10 @@ var desert_image = document.getElementById("desert_image");
 
 
     function chooseColor(choice){
+        if (color!= "none"){
+            console.log("already " + color);
+            return;
+        }
         console.log(choice);
         var field = document.getElementById("id_" + choice + "_player");
         for (var i=0; i < field.options.length; i++){
@@ -130,7 +134,15 @@ var desert_image = document.getElementById("desert_image");
                 field.options.selectedIndex = i;
             }
         }
-        document.querySelector('#chat-log').value += "[{{user}}] Is now " + choice + "!\n";
+
+        sendMessage({
+            'user': "{{user}}",
+            'message': "changeColor",
+            'color': choice,
+            'timestamp': getTimeStamp()
+        });
+        updateDatabase();
+        color = choice;
     }
 
     function addVillage(x, y){
@@ -288,13 +300,11 @@ var desert_image = document.getElementById("desert_image");
     document.querySelector('#chat-message-submit').onclick = function(e) {
         var messageInputDom = document.querySelector('#chat-message-input');
         var message = messageInputDom.value;
-        var d = new Date;
-        var timestamp = d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
         sendMessage({
             'user': '{{user}}',
             'message': 'sendChat',
             'chat': message,
-            'timestamp': timestamp
+            'timestamp': getTimeStamp()
         });
         var chat_entry = ("(" + timestamp + ")[{{user}}]: " + message + '\n');
         document.querySelector('#chat-log').value += chat_entry;
@@ -327,6 +337,10 @@ var desert_image = document.getElementById("desert_image");
                 clearBoard(ctx);
                 drawBoard(ctx);
                 break;
+            case 'changeColor':
+                document.querySelector('#chat-log').value += "(" + message['timestamp'] + "): {{user}} is now " + choice + "!\n";
+                break;
+
         }
         //document.querySelector('#chat-log').value += (message + '\n');
     };
@@ -346,9 +360,14 @@ var desert_image = document.getElementById("desert_image");
     }
 
     function updateDatabase(){
-        document.getElementById("id_villagesX").value = villagesX_string;
-        document.getElementById("id_villagesY").value = villagesY_string;
+        console.log("updating database");
         document.getElementById("form_id").submit();
+    }
+
+    function getTimeStamp(){
+        var d = new Date;
+        var timestamp = d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
+        return timestamp;
     }
 
 </script>
