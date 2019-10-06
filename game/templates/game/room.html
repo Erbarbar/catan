@@ -92,11 +92,15 @@ var desert_image = document.getElementById("desert_image");
     window.onload = function(){
         var board_canvas = document.getElementById("board_canvas");
         color = getColor();
+        if(color=="none"){
+            localChat("Please pick a color!");
+        }
         if(color!="none"){
             var end_turn_button = document.getElementById("end_turn_" + color);
             end_turn_button.style.display = "block";
             var chat = document.getElementById("chat");
             chat.style.backgroundColor = color;
+            localChat("Your color is " + color);
         }
         board_canvas.addEventListener("mousemove", function(eventInfo) {
             if(color=="none")
@@ -386,6 +390,10 @@ var desert_image = document.getElementById("desert_image");
         var message = '{"message":' + JSON.stringify(json_message) + "}";
         console.log(message);
         chatSocket.send(message);
+    }
+
+    function localChat(message){
+        document.querySelector('#chat-log').value += message + "\n";
     }
 
     function updateDatabase(){
