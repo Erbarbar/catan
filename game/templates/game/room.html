@@ -90,15 +90,20 @@ var desert_image = document.getElementById("desert_image");
     window.onload = function(){
         var board_canvas = document.getElementById("board_canvas");
         color = getColor();
+
         board_canvas.addEventListener("mousemove", function(eventInfo) {
+            if(color=="none")
+                return;
             var [x,y] = getCursorPosition(board_canvas, eventInfo);
             var ctx = board_canvas.getContext('2d');
             clearBoard(ctx);
             drawBoard(ctx);
-            drawVillage(ctx, x, y, "red");
+            drawVillage(ctx, x, y, color);
         });
 
         board_canvas.addEventListener("click", function(eventInfo){
+            if(color=="none")
+                return;
             var [x, y] = getCursorPosition(board_canvas, eventInfo);
             x = Math.floor(x);
             y = Math.floor(y);
