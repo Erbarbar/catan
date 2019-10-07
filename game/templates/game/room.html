@@ -266,20 +266,8 @@ var desert_image = document.getElementById("desert_image");
     function chooseColor(choice){
         if (color!= "none"){
             console.log("already " + color);
+            return;
         }
-        console.log(choice);
-        var red_user_form = document.getElementById("id_red_player");
-        var green_user_form = document.getElementById("id_green_player");
-        var blue_user_form = document.getElementById("id_blue_player");
-        var white_user_form = document.getElementById("id_white_player");
-        if("{{user}}" == red_user_form.options[red_user_form.options.selectedIndex].innerHTML)
-            red_user_form.options.selectedIndex = 0;
-        if("{{user}}" == green_user_form.options[green_user_form.options.selectedIndex].innerHTML)
-            green_user_form.options.selectedIndex = 0;
-        if("{{user}}" == blue_user_form.options[blue_user_form.options.selectedIndex].innerHTML)
-            blue_user_form.options.selectedIndex = 0;
-        if("{{user}}" == white_user_form.options[white_user_form.options.selectedIndex].innerHTML)
-            white_user_form.options.selectedIndex = 0;
 
         var field = document.getElementById("id_" + choice + "_player");
         for (var i=0; i < field.options.length; i++){
@@ -294,7 +282,7 @@ var desert_image = document.getElementById("desert_image");
             'color': choice,
             'timestamp': getTimeStamp()
         });
-        //updateDatabase();
+        updateDatabase();
         color = choice;
     }
 
