@@ -107,14 +107,13 @@ var desert_image = document.getElementById("desert_image");
             chat.style.backgroundColor = color;
             localChat("Your color is " + color);
         }
-        console.og("{{room.red_villages_placed_x}}");
-        
-        if("{{room.red_villages_placed_x}}" == none)
+
+        if("{{room.red_villages_placed_x}}" == "None")
             red_villages_placed_x = [];
         else
             red_villages_placed_y = "{{room.red_villages_placed_x}}".split(',');
         
-        if("{{room.red_villages_placed_y}}" == none)
+        if("{{room.red_villages_placed_y}}" == "None")
             red_villages_placed_y = [];
         else
             red_villages_placed_y = "{{room.red_villages_placed_y}}".split(',');
@@ -200,10 +199,11 @@ var desert_image = document.getElementById("desert_image");
     function addVillage(x, y, c){
         switch (c){
             case "red":
-                if(red_villages_placed_x != ""){
-                    red_villages_placed_x += ",";
-                }
-                red_villages_placed_x += x;
+                red_villages_placed_x.push(x);
+                red_villages_placed_y.push(y);
+                var red_villages_placed_x_form = document.getElementById("id_red_villages_placed_x");
+                var red_villages_placed_y_form = document.getElementById("id_red_villages_placed_y");
+                red_villages_placed_y_form = red_villages_placed_y.toString();
                 break;
             case "green":
                 break;
@@ -277,6 +277,9 @@ var desert_image = document.getElementById("desert_image");
 
         for(var i = 0; i < villagesX.length; i++){
             drawVillage(canvasContext, villagesX[i], villagesY[i], "green");
+        }
+        for(var i = 0; i < red_villages_placed_x.length; i++){
+            drawVillage(canvasContext, red_villages_placed_x[i], red_villages_placed_y[i], "red");
         }
         
     }
@@ -398,11 +401,13 @@ var desert_image = document.getElementById("desert_image");
                 var chat_entry = ("(" + chat_timestamp + ")[" + chat_sender + "]: " + chat_message + '\n');
                 document.querySelector('#chat-log').value += chat_entry;
                 break;
+
             case 'addVillage':
                 addVillage(message['x'],message['y'], message['color']);
                 clearBoard(ctx);
                 drawBoard(ctx);
                 break;
+
             case 'changeColor':
                 document.querySelector('#chat-log').value += "(" + message['timestamp'] + "): {{user}} is now " + choice + "!\n";
                 break;
