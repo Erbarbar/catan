@@ -17,18 +17,28 @@
             </div>
          </div
         ><div id="player_area_left" class="player_area" onclick="chooseColor('blue')">
-            <button id="end_turn_blue" style="display: none;" onclick="updateDatabase();"> End Turn </button></div
+            <div id=blue_options style="display: none;">
+                <button id="end_turn_blue"  onclick="updateDatabase();"> End Turn </button>
+                <button id="place_village" onclick="selectVillagePlacement();">Village</button>
+                <button id="place_city" onclick="selectCityPlacement();">City</button>
+            </div></div
         ><div id="board"
             ><canvas id="board_canvas" width="1000px" height="1000px">
                 
             </canvas
         ></div
         ><div id="player_area_right" class="player_area" onclick="chooseColor('green')">
-            <button id="end_turn_green" style="display: none;" onclick="updateDatabase();"> End Turn </button></div
+            <div id=green_options style="display: none;">
+                <button id="end_turn_green"  onclick="updateDatabase();"> End Turn </button>
+                <button id="place_village" onclick="selectVillagePlacement();">Village</button>
+                <button id="place_city" onclick="selectCityPlacement();">City</button>
+            </div></div
         ><div id="player_area_bottom" class="player_area" onclick="chooseColor('white')">
-            <button id="end_turn_white" style="display: none;" onclick="updateDatabase();"> End Turn </button>
-        </div
-    ></div
+            <div id=white_options style="display: none;">
+                <button id="end_turn_white"  onclick="updateDatabase();"> End Turn </button>
+                <button id="place_village" onclick="selectVillagePlacement();">Village</button>
+                <button id="place_city" onclick="selectCityPlacement();">City</button>
+            </div></div
     ><div id="chat" 
         ><textarea id="chat-log" cols="40" rows="45"></textarea><br/
         ><input id="chat-message-input" type="text" size="36"/
@@ -70,6 +80,15 @@ var blue_villages_placed_y = [];
 var white_villages_placed_x = [];
 var white_villages_placed_y = [];
 
+var red_cities_placed_x = [];
+var red_cities_placed_y = [];
+var green_cities_placed_x = [];
+var green_cities_placed_y = [];
+var blue_cities_placed_x = [];
+var blue_cities_placed_y = [];
+var white_cities_placed_x = [];
+var white_cities_placed_y = [];
+
 
 var color = "none";
 var placing = "nothing";
@@ -98,6 +117,69 @@ var desert_image = document.getElementById("desert_image");
             localChat("Your color is " + color);
         }
         //get village positions
+        getVillagesFromServer();
+        
+
+        board_canvas.addEventListener("mousemove", function(eventInfo) {
+            if(color=="none" || placing == "nothing")
+                return;
+            var [x,y] = getCursorPosition(board_canvas, eventInfo);
+            var ctx = board_canvas.getContext('2d');
+            clearBoard(ctx);
+            drawBoard(ctx);
+            switch(placing){
+                case "village":
+                    drawVillage(ctx, x, y, color);
+                    break;
+                case "city":
+                    drawCity(ctx, x, y, color);
+                    break;
+                case "road":
+                    //drawRoad(ctx, x, y, color);
+                    break;
+            }
+        });
+
+        board_canvas.addEventListener("click", function(eventInfo){
+            if(color=="none" || placing == "nothing")
+                return;
+            var [x, y] = getCursorPosition(board_canvas, eventInfo);
+            x = Math.floor(x);
+            y = Math.floor(y);
+            var ctx = board_canvas.getContext("2d");
+
+            switch(placing){
+                case "village":
+                    addVillage(x, y, color);
+                    sendMessage({
+                        'user': '{{user}}',
+                        'message': 'addVillage',
+                        'x': x,
+                        'y': y,
+                        'color': color
+                    });
+                    break;
+                case "city":
+                    addCity(x, y, color);
+                    sendMessage({
+                        'user': '{{user}}',
+                        'message': 'addCity',
+                        'x': x,
+                        'y': y,
+                        'color': color
+                    });
+                    break;
+            }
+            
+
+            clearBoard(ctx);
+            drawBoard(ctx);
+        });
+
+
+    }
+
+    function getVillagesFromServer(){
         //red
         if("{{room.red_villages_placed_x}}" == "None")
             red_villages_placed_x = [];
@@ -137,68 +219,67 @@ var desert_image = document.getElementById("desert_image");
             white_villages_placed_y = [];
         else
             white_villages_placed_y = "{{room.white_villages_placed_y}}".split(',');
-        
-
-        board_canvas.addEventListener("mousemove", function(eventInfo) {
-            if(color=="none" || placing == "nothing")
-                return;
-            var [x,y] = getCursorPosition(board_canvas, eventInfo);
-            var ctx = board_canvas.getContext('2d');
-            clearBoard(ctx);
-            drawBoard(ctx);
-            switch(placing){
-                case "village":
-                    drawVillage(ctx, x, y, color);
-                    break;
-                case "city":
-                    drawCity(ctx, x, y, color);
-                    break;
-                case "road":
-                    //drawRoad(ctx, x, y, color);
-                    break;
-            }
-        });
-
-        board_canvas.addEventListener("click", function(eventInfo){
-            if(color=="none")
-                return;
-            var [x, y] = getCursorPosition(board_canvas, eventInfo);
-            x = Math.floor(x);
-            y = Math.floor(y);
-            var ctx = board_canvas.getContext("2d");
-
-            addVillage(x, y, color);
-
-            sendMessage({
-                'user': '{{user}}',
-                'message': 'addVillage',
-                'x': x,
-                'y': y,
-                'color': color
-            });
-
-            clearBoard(ctx);
-            drawBoard(ctx);
-        });
-
-
     }
 
+    function getCitiesFromServer(){
+        //red
+        if("{{room.red_cities_placed_x}}" == "None")
+            red_cities_placed_x = [];
+        else
+            red_cities_placed_x = "{{room.red_cities_placed_x}}".split(',');
+        if("{{room.red_cities_placed_y}}" == "None")
+            red_cities_placed_y = [];
+        else
+            red_cities_placed_y = "{{room.red_cities_placed_y}}".split(',');
+
+        //green
+        if("{{room.green_cities_placed_x}}" == "None")
+            green_cities_placed_x = [];
+        else
+            green_cities_placed_x = "{{room.green_cities_placed_x}}".split(',');
+        if("{{room.green_cities_placed_y}}" == "None")
+            green_cities_placed_y = [];
+        else
+            green_cities_placed_y = "{{room.green_cities_placed_y}}".split(',');
+
+        // blue
+        if("{{room.blue_cities_placed_x}}" == "None")
+            blue_cities_placed_x = [];
+        else
+            blue_cities_placed_x = "{{room.blue_cities_placed_x}}".split(',');
+        if("{{room.blue_cities_placed_y}}" == "None")
+            blue_cities_placed_y = [];
+        else
+            blue_cities_placed_y = "{{room.blue_cities_placed_y}}".split(',');
+
+        // white
+        if("{{room.white_cities_placed_x}}" == "None")
+            white_cities_placed_x = [];
+        else
+            white_cities_placed_x = "{{room.white_cities_placed_x}}".split(',');
+        if("{{room.white_cities_placed_y}}" == "None")
+            white_cities_placed_y = [];
+        else
+            white_cities_placed_y = "{{room.white_cities_placed_y}}".split(',');
+    }
 
     function chooseColor(choice){
         if (color!= "none"){
             console.log("already " + color);
-            return;
         }
         console.log(choice);
         var red_user_form = document.getElementById("id_red_player");
         var green_user_form = document.getElementById("id_green_player");
         var blue_user_form = document.getElementById("id_blue_player");
         var white_user_form = document.getElementById("id_white_player");
-        red_user_form.options.selectedIndex = 0;
-        green_user_form.options.selectedIndex = 0;
-        blue_user_form.options.selectedIndex = 0;
-        white_user_form.options.selectedIndex = 0;
+        if("{{user}}" == red_user_form.options[red_user_form.options.selectedIndex].innerHTML)
+            red_user_form.options.selectedIndex = 0;
+        if("{{user}}" == green_user_form.options[green_user_form.options.selectedIndex].innerHTML)
+            green_user_form.options.selectedIndex = 0;
+        if("{{user}}" == blue_user_form.options[blue_user_form.options.selectedIndex].innerHTML)
+            blue_user_form.options.selectedIndex = 0;
+        if("{{user}}" == white_user_form.options[white_user_form.options.selectedIndex].innerHTML)
+            white_user_form.options.selectedIndex = 0;
 
         var field = document.getElementById("id_" + choice + "_player");
         for (var i=0; i < field.options.length; i++){
@@ -272,6 +353,43 @@ var desert_image = document.getElementById("desert_image");
         }
     }
 
+    function addCity(x, y, c){
+        switch (c){
+            case "red":
+                red_cities_placed_x.push(x);
+                red_cities_placed_y.push(y);
+                var red_cities_placed_x_form = document.getElementById("id_red_cities_placed_x_x");
+                var red_cities_placed_y_form = document.getElementById("id_red_cities_placed_y");
+                red_cities_placed_x_form.value = red_cities_placed_x.toString();
+                red_cities_placed_y_form.value = red_cities_placed_y.toString();
+                break;
+            case "green":
+                green_cities_placed_x.push(x);
+                green_cities_placed_y.push(y);
+                var green_cities_placed_x_form = document.getElementById("id_green_cities_placed_x");
+                var green_cities_placed_y_form = document.getElementById("id_green_cities_placed_y");
+                green_cities_placed_x_form.value = green_cities_placed_x.toString();
+                green_cities_placed_y_form.value = green_cities_placed_y.toString();
+                break;
+            case "blue":
+                blue_cities_placed_x.push(x);
+                blue_cities_placed_y.push(y);
+                var blue_cities_placed_x_form = document.getElementById("id_blue_cities_placed_x");
+                var blue_cities_placed_y_form = document.getElementById("id_blue_cities_placed_y");
+                blue_cities_placed_x_form.value = blue_cities_placed_x.toString();
+                blue_cities_placed_y_form.value = blue_cities_placed_y.toString();
+                break;
+            case "white":
+                white_cities_placed_x.push(x);
+                white_cities_placed_y.push(y);
+                var white_cities_placed_x_form = document.getElementById("id_white_cities_placed_x");
+                var white_cities_placed_y_form = document.getElementById("id_white_cities_placed_y");
+                white_cities_placed_x_form.value = white_cities_placed_x.toString();
+                white_cities_placed_y_form.value = white_cities_placed_y.toString();
+                break;
+        }
+    }
+
     function getCursorPosition(canvas, event) {
         var rect = canvas.getBoundingClientRect(); // abs. size of element
         var scaleX = canvas.width / rect.width;    // relationship bitmap vs. element for X
@@ -324,6 +442,7 @@ var desert_image = document.getElementById("desert_image");
         drawHexagon(canvasContext, x-1*radius*cos30/tan30, y-1*radius*sin30/tan30-1*radius/tan30, 17, temp_fields, temp_numbers);
         drawHexagon(canvasContext, x, y-2*radius/tan30, 18, temp_fields, temp_numbers);
 
+        //villages
         for(var i = 0; i < red_villages_placed_x.length; i++){
             drawVillage(canvasContext, red_villages_placed_x[i], red_villages_placed_y[i], "red");
         }
@@ -335,6 +454,19 @@ var desert_image = document.getElementById("desert_image");
         }
         for(var i = 0; i < white_villages_placed_x.length; i++){
             drawVillage(canvasContext, white_villages_placed_x[i], white_villages_placed_y[i], "white");
+        }
+        //cities
+        for(var i = 0; i < red_cities_placed_x.length; i++){
+            drawVillage(canvasContext, red_cities_placed_x[i], red_cities_placed_y[i], "red");
+        }
+        for(var i = 0; i < green_cities_placed_x.length; i++){
+            drawVillage(canvasContext, green_cities_placed_x[i], green_cities_placed_y[i], "green");
+        }
+        for(var i = 0; i < blue_cities_placed_x.length; i++){
+            drawVillage(canvasContext, blue_cities_placed_x[i], blue_cities_placed_y[i], "blue");
+        }
+        for(var i = 0; i < white_cities_placed_x.length; i++){
+            drawVillage(canvasContext, white_cities_placed_x[i], white_cities_placed_y[i], "white");
         }
         
     }
@@ -405,7 +537,7 @@ var desert_image = document.getElementById("desert_image");
     function drawCity(ctx, x, y, color){
         ctx.beginPath();
         ctx.fillStyle = color;
-        ctx.strokeStyle = "#555";
+        ctx.strokeStyle = "#FF0";
         ctx.lineWidth = 5;
         ctx.arc(x,y,25,0,2*Math.PI);
         ctx.fill();
@@ -479,6 +611,12 @@ var desert_image = document.getElementById("desert_image");
 
             case 'addVillage':
                 addVillage(message['x'],message['y'], message['color']);
+                clearBoard(ctx);
+                drawBoard(ctx);
+                break;
+
+            case 'addCity':
+                addCity(message['x'],message['y'], message['color']);
                 clearBoard(ctx);
                 drawBoard(ctx);
                 break;
