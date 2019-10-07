@@ -9,7 +9,13 @@
 </head>
 <body
     ><div id="container"
-        ><div id="player_area_top" class="player_area" onclick="chooseColor('red')"><button id="end_turn_red" style="display: none;" onclick="updateDatabase();"> End Turn </button></div
+        ><div id="player_area_top" class="player_area" onclick="chooseColor('red')">
+            <div id=red_options style="display: none;">
+                <button id="end_turn_red"  onclick="updateDatabase();"> End Turn </button>
+                <button id="place_village" onclick="selectVillagePlacement();">Village</button>
+                <button id="place_city" onclick="selectCityPlacement();">City</button>
+            </div>
+         </div
         ><div id="player_area_left" class="player_area" onclick="chooseColor('blue')">
             <button id="end_turn_blue" style="display: none;" onclick="updateDatabase();"> End Turn </button></div
         ><div id="board"
@@ -66,7 +72,7 @@ var white_villages_placed_y = [];
 
 
 var color = "none";
-
+var placing = "nothing";
 
 var forest_image = document.getElementById("forest_image");
 var pasture_image = document.getElementById("pasture_image");
@@ -85,8 +91,8 @@ var desert_image = document.getElementById("desert_image");
         }
         // show end turn button and change chat color
         if(color!="none"){
-            var end_turn_button = document.getElementById("end_turn_" + color);
-            end_turn_button.style.display = "block";
+            var player_options = document.getElementById(color + "_options");
+            player_options.style.display = "block";
             var chat = document.getElementById("chat");
             chat.style.backgroundColor = color;
             localChat("Your color is " + color);
@@ -134,13 +140,23 @@ var desert_image = document.getElementById("desert_image");
         
 
         board_canvas.addEventListener("mousemove", function(eventInfo) {
-            if(color=="none")
+            if(color=="none" || placing == "nothing")
                 return;
             var [x,y] = getCursorPosition(board_canvas, eventInfo);
             var ctx = board_canvas.getContext('2d');
             clearBoard(ctx);
             drawBoard(ctx);
-            drawVillage(ctx, x, y, color);
+            switch(placing){
+                case "village":
+                    drawVillage(ctx, x, y, color);
+                    break;
+                case "city":
+                    drawCity(ctx, x, y, color);
+                    break;
+                case "road":
+                    //drawRoad(ctx, x, y, color);
+                    break;
+            }
         });
 
         board_canvas.addEventListener("click", function(eventInfo){
@@ -385,6 +401,26 @@ var desert_image = document.getElementById("desert_image");
         ctx.fill();
         ctx.stroke();
         ctx.closePath();
+    }
+    function drawCity(ctx, x, y, color){
+        ctx.beginPath();
+        ctx.fillStyle = color;
+        ctx.strokeStyle = "#555";
+        ctx.lineWidth = 5;
+        ctx.arc(x,y,25,0,2*Math.PI);
+        ctx.fill();
+        ctx.stroke();
+        ctx.closePath();
+    }
+
+    function selectVillagePlacement(){
+        placing = "village";
+    }
+    function selectCityPlacement(){
+        placing = "city";
+    }
+    function selectRoadPlacement(){
+        placing = "road";
     }
 
     var roomName = "{{ room.name }}";
