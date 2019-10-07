@@ -118,7 +118,10 @@ var desert_image = document.getElementById("desert_image");
         else
             red_villages_placed_y = "{{room.red_villages_placed_y}}".split(',');
         
+        console.log("{{room.red_villages_placed_x}}");
         console.log(red_villages_placed_x);
+        console.log("{{room.red_villages_placed_y}}");
+        console.log(red_villages_placed_y);
 
         board_canvas.addEventListener("mousemove", function(eventInfo) {
             if(color=="none")
@@ -277,9 +280,6 @@ var desert_image = document.getElementById("desert_image");
         drawHexagon(canvasContext, x-1*radius*cos30/tan30, y-1*radius*sin30/tan30-1*radius/tan30, 17, temp_fields, temp_numbers);
         drawHexagon(canvasContext, x, y-2*radius/tan30, 18, temp_fields, temp_numbers);
 
-        for(var i = 0; i < villagesX.length; i++){
-            drawVillage(canvasContext, villagesX[i], villagesY[i], "green");
-        }
         for(var i = 0; i < red_villages_placed_x.length; i++){
             drawVillage(canvasContext, red_villages_placed_x[i], red_villages_placed_y[i], "red");
         }
