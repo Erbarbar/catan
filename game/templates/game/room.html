@@ -57,29 +57,13 @@ var numbers = "{{room.numbers}}".split(",");
 
 var red_villages_placed_x = [];
 var red_villages_placed_y = [];
+var green_villages_placed_x = [];
+var green_villages_placed_y = [];
+var blue_villages_placed_x = [];
+var blue_villages_placed_y = [];
+var white_villages_placed_x = [];
+var white_villages_placed_y = [];
 
-var villagesX_string = "{{room.villagesX}}";
-var villagesY_string = "{{room.villagesY}}";
-
-if (villagesX_string == "None"){
-    villagesX_string = "";
-}
-if (villagesY_string == "None"){
-    villagesY_string = "";
-}
-
-var villagesX = villagesX_string;
-var villagesY = villagesY_string;
-
-if( villagesX == "")
-    villagesX = [];
-else
-    villagesX = villagesX.split(',');
-
-if(villagesY == "" )
-    villagesY = [];
-else
-    villagesY = villagesY.split(',');
 
 var color = "none";
 
@@ -107,21 +91,47 @@ var desert_image = document.getElementById("desert_image");
             chat.style.backgroundColor = color;
             localChat("Your color is " + color);
         }
-
+        //get village positions
+        //red
         if("{{room.red_villages_placed_x}}" == "None")
             red_villages_placed_x = [];
         else
             red_villages_placed_x = "{{room.red_villages_placed_x}}".split(',');
-        
         if("{{room.red_villages_placed_y}}" == "None")
             red_villages_placed_y = [];
         else
             red_villages_placed_y = "{{room.red_villages_placed_y}}".split(',');
+
+        //green
+        if("{{room.green_villages_placed_x}}" == "None")
+            green_villages_placed_x = [];
+        else
+            green_villages_placed_x = "{{room.green_villages_placed_x}}".split(',');
+        if("{{room.green_villages_placed_y}}" == "None")
+            green_villages_placed_y = [];
+        else
+            green_villages_placed_y = "{{room.green_villages_placed_y}}".split(',');
+
+        // blue
+        if("{{room.blue_villages_placed_x}}" == "None")
+            blue_villages_placed_x = [];
+        else
+            blue_villages_placed_x = "{{room.blue_villages_placed_x}}".split(',');
+        if("{{room.blue_villages_placed_y}}" == "None")
+            blue_villages_placed_y = [];
+        else
+            blue_villages_placed_y = "{{room.blue_villages_placed_y}}".split(',');
+
+        // white
+        if("{{room.white_villages_placed_x}}" == "None")
+            white_villages_placed_x = [];
+        else
+            white_villages_placed_x = "{{room.white_villages_placed_x}}".split(',');
+        if("{{room.white_villages_placed_y}}" == "None")
+            white_villages_placed_y = [];
+        else
+            white_villages_placed_y = "{{room.white_villages_placed_y}}".split(',');
         
-        console.log("{{room.red_villages_placed_x}}");
-        console.log(red_villages_placed_x);
-        console.log("{{room.red_villages_placed_y}}");
-        console.log(red_villages_placed_y);
 
         board_canvas.addEventListener("mousemove", function(eventInfo) {
             if(color=="none")
@@ -162,9 +172,18 @@ var desert_image = document.getElementById("desert_image");
     function chooseColor(choice){
         if (color!= "none"){
             console.log("already " + color);
-            return;
+            //return;
         }
         console.log(choice);
+        var red_user_form = document.getElementById("id_red_player");
+        var green_user_form = document.getElementById("id_green_player");
+        var blue_user_form = document.getElementById("id_blue_player");
+        var white_user_form = document.getElementById("id_white_player");
+        red_user_form.options.selectedIndex = 0;
+        green_user_form.options.selectedIndex = 0;
+        blue_user_form.options.selectedIndex = 0;
+        white_user_form.options.selectedIndex = 0;
+
         var field = document.getElementById("id_" + choice + "_player");
         for (var i=0; i < field.options.length; i++){
             if("{{user}}" == field.options[i].innerHTML){
@@ -211,21 +230,30 @@ var desert_image = document.getElementById("desert_image");
                 red_villages_placed_y_form.value = red_villages_placed_y.toString();
                 break;
             case "green":
+                green_villages_placed_x.push(x);
+                green_villages_placed_y.push(y);
+                var green_villages_placed_x_form = document.getElementById("id_green_villages_placed_x");
+                var green_villages_placed_y_form = document.getElementById("id_green_villages_placed_y");
+                green_villages_placed_x_form.value = green_villages_placed_x.toString();
+                green_villages_placed_y_form.value = green_villages_placed_y.toString();
                 break;
             case "blue":
+                blue_villages_placed_x.push(x);
+                blue_villages_placed_y.push(y);
+                var blue_villages_placed_x_form = document.getElementById("id_blue_villages_placed_x");
+                var blue_villages_placed_y_form = document.getElementById("id_blue_villages_placed_y");
+                blue_villages_placed_x_form.value = blue_villages_placed_x.toString();
+                blue_villages_placed_y_form.value = blue_villages_placed_y.toString();
                 break;
             case "white":
+                white_villages_placed_x.push(x);
+                white_villages_placed_y.push(y);
+                var white_villages_placed_x_form = document.getElementById("id_white_villages_placed_x");
+                var white_villages_placed_y_form = document.getElementById("id_white_villages_placed_y");
+                white_villages_placed_x_form.value = white_villages_placed_x.toString();
+                white_villages_placed_y_form.value = white_villages_placed_y.toString();
                 break;
         }
-            if(villagesX_string != "")
-                villagesX_string += ",";
-            villagesX_string += x;
-            villagesX.push(x);
-
-            if(villagesY_string != "")
-                villagesY_string += ",";
-            villagesY_string += y;
-            villagesY.push(y);
     }
 
     function getCursorPosition(canvas, event) {
@@ -282,6 +310,15 @@ var desert_image = document.getElementById("desert_image");
 
         for(var i = 0; i < red_villages_placed_x.length; i++){
             drawVillage(canvasContext, red_villages_placed_x[i], red_villages_placed_y[i], "red");
+        }
+        for(var i = 0; i < green_villages_placed_x.length; i++){
+            drawVillage(canvasContext, green_villages_placed_x[i], green_villages_placed_y[i], "green");
+        }
+        for(var i = 0; i < blue_villages_placed_x.length; i++){
+            drawVillage(canvasContext, blue_villages_placed_x[i], blue_villages_placed_y[i], "blue");
+        }
+        for(var i = 0; i < white_villages_placed_x.length; i++){
+            drawVillage(canvasContext, white_villages_placed_x[i], white_villages_placed_y[i], "white");
         }
         
     }

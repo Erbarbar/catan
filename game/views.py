@@ -33,10 +33,14 @@ def room(request, room_name):
             room.name = form.cleaned_data['name']
             room.fields = form.cleaned_data['fields']
             room.numbers = form.cleaned_data['numbers']
-            room.villagesX = form.cleaned_data['villagesX']
-            room.villagesY = form.cleaned_data['villagesY']
             room.red_villages_placed_x = form.cleaned_data['red_villages_placed_x']
             room.red_villages_placed_y = form.cleaned_data['red_villages_placed_y']
+            room.green_villages_placed_x = form.cleaned_data['green_villages_placed_x']
+            room.green_villages_placed_y = form.cleaned_data['green_villages_placed_y']
+            room.blue_villages_placed_x = form.cleaned_data['blue_villages_placed_x']
+            room.blue_villages_placed_y = form.cleaned_data['blue_villages_placed_y']
+            room.white_villages_placed_x = form.cleaned_data['white_villages_placed_x']
+            room.white_villages_placed_y = form.cleaned_data['white_villages_placed_y']
             room.save()
             form.save()
     else:

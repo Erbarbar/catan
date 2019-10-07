@@ -10,15 +10,19 @@ class RoomForm(forms.ModelForm):
             'name',
             'fields', 
             'numbers',
-            'villagesX', 
-            'villagesY',
 
             'red_player',
             'red_villages_placed_x',
             'red_villages_placed_y',
             'green_player',
+            'green_villages_placed_x',
+            'green_villages_placed_y',
             'blue_player',
-            'white_player'
+            'blue_villages_placed_x',
+            'blue_villages_placed_y',
+            'white_player',
+            'white_villages_placed_x',
+            'white_villages_placed_y',
 
 
         ) 
