@@ -55,6 +55,9 @@ var cos30 = 0.866025,
 var fields = "{{room.fields}}".split(",");
 var numbers = "{{room.numbers}}".split(",");
 
+var red_villages_placed_x = [];
+var red_villages_placed_y = [];
+
 var villagesX_string = "{{room.villagesX}}";
 var villagesY_string = "{{room.villagesY}}";
 
@@ -92,9 +95,11 @@ var desert_image = document.getElementById("desert_image");
     window.onload = function(){
         var board_canvas = document.getElementById("board_canvas");
         color = getColor();
+        // display selected color
         if(color=="none"){
             localChat("Please pick a color!");
         }
+        // show end turn button and change chat color
         if(color!="none"){
             var end_turn_button = document.getElementById("end_turn_" + color);
             end_turn_button.style.display = "block";
@@ -102,6 +107,19 @@ var desert_image = document.getElementById("desert_image");
             chat.style.backgroundColor = color;
             localChat("Your color is " + color);
         }
+        console.og("{{room.red_villages_placed_x}}");
+        
+        if("{{room.red_villages_placed_x}}" == none)
+            red_villages_placed_x = [];
+        else
+            red_villages_placed_y = "{{room.red_villages_placed_x}}".split(',');
+        
+        if("{{room.red_villages_placed_y}}" == none)
+            red_villages_placed_y = [];
+        else
+            red_villages_placed_y = "{{room.red_villages_placed_y}}".split(',');
+        
+
         board_canvas.addEventListener("mousemove", function(eventInfo) {
             if(color=="none")
                 return;
@@ -120,13 +138,14 @@ var desert_image = document.getElementById("desert_image");
             y = Math.floor(y);
             var ctx = board_canvas.getContext("2d");
 
-            addVillage(x, y);
+            addVillage(x, y, color);
 
             sendMessage({
                 'user': '{{user}}',
                 'message': 'addVillage',
                 'x': x,
-                'y': y
+                'y': y,
+                'color': color
             });
 
             clearBoard(ctx);
@@ -178,7 +197,21 @@ var desert_image = document.getElementById("desert_image");
         return "none";
     }
 
-    function addVillage(x, y){
+    function addVillage(x, y, c){
+        switch (c){
+            case "red":
+                if(red_villages_placed_x != ""){
+                    red_villages_placed_x += ",";
+                }
+                red_villages_placed_x += x;
+                break;
+            case "green":
+                break;
+            case "blue":
+                break;
+            case "white":
+                break;
+        }
             if(villagesX_string != "")
                 villagesX_string += ",";
             villagesX_string += x;
@@ -366,7 +399,7 @@ var desert_image = document.getElementById("desert_image");
                 document.querySelector('#chat-log').value += chat_entry;
                 break;
             case 'addVillage':
-                addVillage(message['x'],message['y']);
+                addVillage(message['x'],message['y'], message['color']);
                 clearBoard(ctx);
                 drawBoard(ctx);
                 break;
@@ -379,7 +412,6 @@ var desert_image = document.getElementById("desert_image");
     };
 
     chatSocket.onopen = function(e){
-        console.log(chatSocket);
         var board_canvas = document.getElementById("board_canvas");
         var ctx = board_canvas.getContext('2d');
         clearBoard(ctx);
