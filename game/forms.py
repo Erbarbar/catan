@@ -14,7 +14,11 @@ class RoomForm(forms.ModelForm):
             'villagesY',
 
             'red_player',
+            'red_villages_placed_x'
+            'red_villages_placed_y',
             'green_player',
             'blue_player',
             'white_player'
+
+
         ) 
