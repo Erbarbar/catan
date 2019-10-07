@@ -188,7 +188,7 @@ var desert_image = document.getElementById("desert_image");
     function chooseColor(choice){
         if (color!= "none"){
             console.log("already " + color);
-            //return;
+            return;
         }
         console.log(choice);
         var red_user_form = document.getElementById("id_red_player");
@@ -213,7 +213,7 @@ var desert_image = document.getElementById("desert_image");
             'color': choice,
             'timestamp': getTimeStamp()
         });
-        updateDatabase();
+        //updateDatabase();
         color = choice;
     }
 
