@@ -541,18 +541,19 @@ var desert_image = document.getElementById("desert_image");
         drawHexagon(canvasContext, x, y-2*radius/tan30, 18, temp_fields, temp_numbers);
 
         //villages
-        for(var i = 0; i < red_villages_placed_x.length; i++){
-            drawVillage(canvasContext, red_villages_placed_x[i], red_villages_placed_y[i], "red");
-        }
-        for(var i = 0; i < green_villages_placed_x.length; i++){
-            drawVillage(canvasContext, green_villages_placed_x[i], green_villages_placed_y[i], "green");
-        }
-        for(var i = 0; i < blue_villages_placed_x.length; i++){
-            drawVillage(canvasContext, blue_villages_placed_x[i], blue_villages_placed_y[i], "blue");
-        }
-        for(var i = 0; i < white_villages_placed_x.length; i++){
-            drawVillage(canvasContext, white_villages_placed_x[i], white_villages_placed_y[i], "white");
-        }
+            for(var i = 0; i < red_villages_placed_x.length; i++){
+                console.log(red_villages_placed_x);
+                drawVillage(canvasContext, red_villages_placed_x[i], red_villages_placed_y[i], "red");
+            }
+            for(var i = 0; i < green_villages_placed_x.length; i++){
+                drawVillage(canvasContext, green_villages_placed_x[i], green_villages_placed_y[i], "green");
+            }
+            for(var i = 0; i < blue_villages_placed_x.length; i++){
+                drawVillage(canvasContext, blue_villages_placed_x[i], blue_villages_placed_y[i], "blue");
+            }
+            for(var i = 0; i < white_villages_placed_x.length; i++){
+                drawVillage(canvasContext, white_villages_placed_x[i], white_villages_placed_y[i], "white");
+            }
         //cities
         for(var i = 0; i < red_cities_placed_x.length; i++){
             drawCity(canvasContext, red_cities_placed_x[i], red_cities_placed_y[i], "red");
