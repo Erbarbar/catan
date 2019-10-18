@@ -133,7 +133,6 @@ var desert_image = document.getElementById("desert_image");
             chat.style.backgroundColor = color;
             localChat("Your color is " + color);
         }
-        
 
         board_canvas.addEventListener("mousemove", function(eventInfo) {
             if(color=="none" || placing == "nothing")
@@ -487,6 +486,13 @@ var desert_image = document.getElementById("desert_image");
 
         var x = (event.clientX - rect.left) * scaleX;
         var y = (event.clientY - rect.top) * scaleY;
+
+        var grid_size_x = 25;
+        var grid_size_y = 20;
+
+        x = Math.round((x+1)/grid_size_x ) * grid_size_x;
+        y = Math.round((y+1)/grid_size_y ) * grid_size_y;
+
         return [x, y];
     }
 
