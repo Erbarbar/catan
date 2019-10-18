@@ -802,7 +802,7 @@ var desert_image = document.getElementById("desert_image");
                 break;
 
             case 'moveThief':
-                moveThief(x,y);
+                moveThief(message['x'],message['y']);
                 clearBoard(ctx);
                 drawBoard(ctx);
 
