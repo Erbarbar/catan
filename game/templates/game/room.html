@@ -206,6 +206,7 @@ var desert_image = document.getElementById("desert_image");
 
     function getVillagesFromServer(){
         //red
+        console.log("{{room.red_villages_placed_x}}");
         if("{{room.red_villages_placed_x}}" == "None")
             red_villages_placed_x = [];
         else
@@ -354,8 +355,6 @@ var desert_image = document.getElementById("desert_image");
     }
 
     function getColor(){
-        console.log("getColor()");
-
         var field = document.getElementById("id_red_player");
         if(field.options[field.options.selectedIndex].innerHTML == "{{user}}")
             return "red";
