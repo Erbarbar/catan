@@ -14,6 +14,7 @@
                 <button id="end_turn_red"  onclick="updateDatabase();"> End Turn </button>
                 <button id="place_village" onclick="selectVillagePlacement();">Village</button>
                 <button id="place_city" onclick="selectCityPlacement();">City</button>
+                <button id="place_road" onclick="selectRoadPlacement();">Road</button>
             </div>
          </div
         ><div id="player_area_left" class="player_area" onclick="chooseColor('blue')">
@@ -21,6 +22,7 @@
                 <button id="end_turn_blue"  onclick="updateDatabase();"> End Turn </button>
                 <button id="place_village" onclick="selectVillagePlacement();">Village</button>
                 <button id="place_city" onclick="selectCityPlacement();">City</button>
+                <button id="place_road" onclick="selectRoadPlacement();">Road</button>
             </div>
         </div
         ><div id="board"
@@ -33,6 +35,7 @@
                 <button id="end_turn_green"  onclick="updateDatabase();"> End Turn </button>
                 <button id="place_village" onclick="selectVillagePlacement();">Village</button>
                 <button id="place_city" onclick="selectCityPlacement();">City</button>
+                <button id="place_road" onclick="selectRoadPlacement();">Road</button>
             </div>
         </div
         ><div id="player_area_bottom" class="player_area" onclick="chooseColor('white')">
@@ -40,6 +43,7 @@
                 <button id="end_turn_white"  onclick="updateDatabase();"> End Turn </button>
                 <button id="place_village" onclick="selectVillagePlacement();">Village</button>
                 <button id="place_city" onclick="selectCityPlacement();">City</button>
+                <button id="place_road" onclick="selectRoadPlacement();">Road</button>
             </div>
         </div
     ></div>
@@ -93,6 +97,15 @@ var blue_cities_placed_y = [];
 var white_cities_placed_x = [];
 var white_cities_placed_y = [];
 
+var red_roads_placed_x = [];
+var red_roads_placed_y = [];
+var green_roads_placed_x = [];
+var green_roads_placed_y = [];
+var blue_roads_placed_x = [];
+var blue_roads_placed_y = [];
+var white_roads_placed_x = [];
+var white_roads_placed_y = [];
+
 
 var color = "none";
 var placing = "nothing";
@@ -124,6 +137,8 @@ var desert_image = document.getElementById("desert_image");
         getVillagesFromServer();
         //get city positions
         getCitiesFromServer();
+        //get road positions
+        getRoadsFromServer();
         
 
         board_canvas.addEventListener("mousemove", function(eventInfo) {
@@ -141,7 +156,7 @@ var desert_image = document.getElementById("desert_image");
                     drawCity(ctx, x, y, color);
                     break;
                 case "road":
-                    //drawRoad(ctx, x, y, color);
+                    drawRoad(ctx, x, y, color);
                     break;
             }
         });
@@ -170,6 +185,16 @@ var desert_image = document.getElementById("desert_image");
                     sendMessage({
                         'user': '{{user}}',
                         'message': 'addCity',
+                        'x': x,
+                        'y': y,
+                        'color': color
+                    });
+                    break;
+                case "road":
+                    addRoad(x, y, color);
+                    sendMessage({
+                        'user': '{{user}}',
+                        'message': 'addRoad',
                         'x': x,
                         'y': y,
                         'color': color
@@ -267,6 +292,48 @@ var desert_image = document.getElementById("desert_image");
             white_cities_placed_y = [];
         else
             white_cities_placed_y = "{{room.white_cities_placed_y}}".split(',');
+    }
+
+    function getRoadsFromServer(){
+        //red
+        if("{{room.red_roads_placed_x}}" == "None")
+            red_roads_placed_x = [];
+        else
+            red_roads_placed_x = "{{room.red_roads_placed_x}}".split(',');
+        if("{{room.red_roads_placed_y}}" == "None")
+            red_roads_placed_y = [];
+        else
+            red_roads_placed_y = "{{room.red_roads_placed_y}}".split(',');
+
+        //green
+        if("{{room.green_roads_placed_x}}" == "None")
+            green_roads_placed_x = [];
+        else
+            green_roads_placed_x = "{{room.green_roads_placed_x}}".split(',');
+        if("{{room.green_roads_placed_y}}" == "None")
+            green_roads_placed_y = [];
+        else
+            green_roads_placed_y = "{{room.green_roads_placed_y}}".split(',');
+
+        // blue
+        if("{{room.blue_roads_placed_x}}" == "None")
+            blue_roads_placed_x = [];
+        else
+            blue_roads_placed_x = "{{room.blue_roads_placed_x}}".split(',');
+        if("{{room.blue_roads_placed_y}}" == "None")
+            blue_roads_placed_y = [];
+        else
+            blue_roads_placed_y = "{{room.blue_roads_placed_y}}".split(',');
+
+        // white
+        if("{{room.white_roads_placed_x}}" == "None")
+            white_roads_placed_x = [];
+        else
+            white_roads_placed_x = "{{room.white_roads_placed_x}}".split(',');
+        if("{{room.white_roads_placed_y}}" == "None")
+            white_roads_placed_y = [];
+        else
+            white_roads_placed_y = "{{room.white_roads_placed_y}}".split(',');
     }
 
     function chooseColor(choice){
@@ -384,6 +451,43 @@ var desert_image = document.getElementById("desert_image");
         }
     }
 
+    function addRoad(x, y, c){
+        switch (c){
+            case "red":
+                red_roads_placed_x.push(x);
+                red_roads_placed_y.push(y);
+                var red_roads_placed_x_form = document.getElementById("id_red_roads_placed_x");
+                var red_roads_placed_y_form = document.getElementById("id_red_roads_placed_y");
+                red_roads_placed_x_form.value = red_roads_placed_x.toString();
+                red_roads_placed_y_form.value = red_roads_placed_y.toString();
+                break;
+            case "green":
+                green_roads_placed_x.push(x);
+                green_roads_placed_y.push(y);
+                var green_roads_placed_x_form = document.getElementById("id_green_roads_placed_x");
+                var green_roads_placed_y_form = document.getElementById("id_green_roads_placed_y");
+                green_roads_placed_x_form.value = green_roads_placed_x.toString();
+                green_roads_placed_y_form.value = green_roads_placed_y.toString();
+                break;
+            case "blue":
+                blue_roads_placed_x.push(x);
+                blue_roads_placed_y.push(y);
+                var blue_roads_placed_x_form = document.getElementById("id_blue_roads_placed_x");
+                var blue_roads_placed_y_form = document.getElementById("id_blue_roads_placed_y");
+                blue_roads_placed_x_form.value = blue_roads_placed_x.toString();
+                blue_roads_placed_y_form.value = blue_roads_placed_y.toString();
+                break;
+            case "white":
+                white_roads_placed_x.push(x);
+                white_roads_placed_y.push(y);
+                var white_roads_placed_x_form = document.getElementById("id_white_roads_placed_x");
+                var white_roads_placed_y_form = document.getElementById("id_white_roads_placed_y");
+                white_roads_placed_x_form.value = white_roads_placed_x.toString();
+                white_roads_placed_y_form.value = white_roads_placed_y.toString();
+                break;
+        }
+    }
+
     function getCursorPosition(canvas, event) {
         var rect = canvas.getBoundingClientRect(); // abs. size of element
         var scaleX = canvas.width / rect.width;    // relationship bitmap vs. element for X
@@ -462,6 +566,19 @@ var desert_image = document.getElementById("desert_image");
         for(var i = 0; i < white_cities_placed_x.length; i++){
             drawCity(canvasContext, white_cities_placed_x[i], white_cities_placed_y[i], "white");
         }
+        //roads
+        for(var i = 0; i < red_roads_placed_x.length; i++){
+            drawCity(canvasContext, red_roads_placed_x[i], red_roads_placed_y[i], "red");
+        }
+        for(var i = 0; i < green_roads_placed_x.length; i++){
+            drawCity(canvasContext, green_roads_placed_x[i], green_roads_placed_y[i], "green");
+        }
+        for(var i = 0; i < blue_roads_placed_x.length; i++){
+            drawCity(canvasContext, blue_roads_placed_x[i], blue_roads_placed_y[i], "blue");
+        }
+        for(var i = 0; i < white_roads_placed_x.length; i++){
+            drawCity(canvasContext, white_roads_placed_x[i], white_roads_placed_y[i], "white");
+        }
         
     }
 
@@ -538,6 +655,16 @@ var desert_image = document.getElementById("desert_image");
         ctx.stroke();
         ctx.closePath();
     }
+    function drawRoad(ctx, x, y, color){
+        ctx.beginPath();
+        ctx.fillStyle = color;
+        ctx.strokeStyle = "#964B00";
+        ctx.lineWidth = 10;
+        ctx.arc(x,y,20,0,2*Math.PI);
+        ctx.fill();
+        ctx.stroke();
+        ctx.closePath();
+    }
 
     function selectVillagePlacement(){
         placing = "village";
@@ -578,7 +705,7 @@ var desert_image = document.getElementById("desert_image");
             'timestamp': timestamp
         });
         var chat_entry = ("(" + timestamp + ")[{{user}}]: " + message + '\n');
-        document.querySelector('#chat-log').value += chat_entry;
+        sendChat(chat_entry);
         messageInputDom.value = '';
     };
 
@@ -601,7 +728,7 @@ var desert_image = document.getElementById("desert_image");
                 var chat_sender = message['user'];
                 var chat_timestamp = message['timestamp'];
                 var chat_entry = ("(" + chat_timestamp + ")[" + chat_sender + "]: " + chat_message + '\n');
-                document.querySelector('#chat-log').value += chat_entry;
+                localChat(chat_entry);
                 break;
 
             case 'addVillage':
@@ -616,8 +743,14 @@ var desert_image = document.getElementById("desert_image");
                 drawBoard(ctx);
                 break;
 
+            case 'addRoad':
+                addRoad(message['x'],message['y'], message['color']);
+                clearBoard(ctx);
+                drawBoard(ctx);
+                break;
+
             case 'changeColor':
-                document.querySelector('#chat-log').value += "(" + message['timestamp'] + "): {{user}} is now " + choice + "!\n";
+                localChat("(" + message['timestamp'] + "): {{user}} is now " + choice + "!");
                 break;
 
         }

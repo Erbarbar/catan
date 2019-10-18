@@ -51,6 +51,15 @@ def room(request, room_name):
             room.blue_cities_placed_y = form.cleaned_data['blue_cities_placed_y']
             room.white_cities_placed_x = form.cleaned_data['white_cities_placed_x']
             room.white_cities_placed_y = form.cleaned_data['white_cities_placed_y']
+            #roads
+            room.red_roads_placed_x = form.cleaned_data['red_roads_placed_x']
+            room.red_roads_placed_y = form.cleaned_data['red_roads_placed_y']
+            room.green_roads_placed_x = form.cleaned_data['green_roads_placed_x']
+            room.green_roads_placed_y = form.cleaned_data['green_roads_placed_y']
+            room.blue_roads_placed_x = form.cleaned_data['blue_roads_placed_x']
+            room.blue_roads_placed_y = form.cleaned_data['blue_roads_placed_y']
+            room.white_roads_placed_x = form.cleaned_data['white_roads_placed_x']
+            room.white_cities_placed_y = form.cleaned_data['white_cities_placed_y']
             room.save()
             form.save()
     else:
