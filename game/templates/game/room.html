@@ -206,42 +206,41 @@ var desert_image = document.getElementById("desert_image");
 
     function getVillagesFromServer(){
         //red
-        console.log("{{room.red_villages_placed_x}}");
-        if("{{room.red_villages_placed_x}}" == "None")
+        if("{{room.red_villages_placed_x}}" == "")
             red_villages_placed_x = [];
         else
             red_villages_placed_x = "{{room.red_villages_placed_x}}".split(',');
-        if("{{room.red_villages_placed_y}}" == "None")
+        if("{{room.red_villages_placed_y}}" == "")
             red_villages_placed_y = [];
         else
             red_villages_placed_y = "{{room.red_villages_placed_y}}".split(',');
 
         //green
-        if("{{room.green_villages_placed_x}}" == "None")
+        if("{{room.green_villages_placed_x}}" == "")
             green_villages_placed_x = [];
         else
             green_villages_placed_x = "{{room.green_villages_placed_x}}".split(',');
-        if("{{room.green_villages_placed_y}}" == "None")
+        if("{{room.green_villages_placed_y}}" == "")
             green_villages_placed_y = [];
         else
             green_villages_placed_y = "{{room.green_villages_placed_y}}".split(',');
 
         // blue
-        if("{{room.blue_villages_placed_x}}" == "None")
+        if("{{room.blue_villages_placed_x}}" == "")
             blue_villages_placed_x = [];
         else
             blue_villages_placed_x = "{{room.blue_villages_placed_x}}".split(',');
-        if("{{room.blue_villages_placed_y}}" == "None")
+        if("{{room.blue_villages_placed_y}}" == "")
             blue_villages_placed_y = [];
         else
             blue_villages_placed_y = "{{room.blue_villages_placed_y}}".split(',');
 
         // white
-        if("{{room.white_villages_placed_x}}" == "None")
+        if("{{room.white_villages_placed_x}}" == "")
             white_villages_placed_x = [];
         else
             white_villages_placed_x = "{{room.white_villages_placed_x}}".split(',');
-        if("{{room.white_villages_placed_y}}" == "None")
+        if("{{room.white_villages_placed_y}}" == "")
             white_villages_placed_y = [];
         else
             white_villages_placed_y = "{{room.white_villages_placed_y}}".split(',');
@@ -249,41 +248,41 @@ var desert_image = document.getElementById("desert_image");
 
     function getCitiesFromServer(){
         //red
-        if("{{room.red_cities_placed_x}}" == "None")
+        if("{{room.red_cities_placed_x}}" == "")
             red_cities_placed_x = [];
         else
             red_cities_placed_x = "{{room.red_cities_placed_x}}".split(',');
-        if("{{room.red_cities_placed_y}}" == "None")
+        if("{{room.red_cities_placed_y}}" == "")
             red_cities_placed_y = [];
         else
             red_cities_placed_y = "{{room.red_cities_placed_y}}".split(',');
 
         //green
-        if("{{room.green_cities_placed_x}}" == "None")
+        if("{{room.green_cities_placed_x}}" == "")
             green_cities_placed_x = [];
         else
             green_cities_placed_x = "{{room.green_cities_placed_x}}".split(',');
-        if("{{room.green_cities_placed_y}}" == "None")
+        if("{{room.green_cities_placed_y}}" == "")
             green_cities_placed_y = [];
         else
             green_cities_placed_y = "{{room.green_cities_placed_y}}".split(',');
 
         // blue
-        if("{{room.blue_cities_placed_x}}" == "None")
+        if("{{room.blue_cities_placed_x}}" == "")
             blue_cities_placed_x = [];
         else
             blue_cities_placed_x = "{{room.blue_cities_placed_x}}".split(',');
-        if("{{room.blue_cities_placed_y}}" == "None")
+        if("{{room.blue_cities_placed_y}}" == "")
             blue_cities_placed_y = [];
         else
             blue_cities_placed_y = "{{room.blue_cities_placed_y}}".split(',');
 
         // white
-        if("{{room.white_cities_placed_x}}" == "None")
+        if("{{room.white_cities_placed_x}}" == "")
             white_cities_placed_x = [];
         else
             white_cities_placed_x = "{{room.white_cities_placed_x}}".split(',');
-        if("{{room.white_cities_placed_y}}" == "None")
+        if("{{room.white_cities_placed_y}}" == "")
             white_cities_placed_y = [];
         else
             white_cities_placed_y = "{{room.white_cities_placed_y}}".split(',');
@@ -291,41 +290,41 @@ var desert_image = document.getElementById("desert_image");
 
     function getRoadsFromServer(){
         //red
-        if("{{room.red_roads_placed_x}}" == "None")
+        if("{{room.red_roads_placed_x}}" == "")
             red_roads_placed_x = [];
         else
             red_roads_placed_x = "{{room.red_roads_placed_x}}".split(',');
-        if("{{room.red_roads_placed_y}}" == "None")
+        if("{{room.red_roads_placed_y}}" == "")
             red_roads_placed_y = [];
         else
             red_roads_placed_y = "{{room.red_roads_placed_y}}".split(',');
 
         //green
-        if("{{room.green_roads_placed_x}}" == "None")
+        if("{{room.green_roads_placed_x}}" == "")
             green_roads_placed_x = [];
         else
             green_roads_placed_x = "{{room.green_roads_placed_x}}".split(',');
-        if("{{room.green_roads_placed_y}}" == "None")
+        if("{{room.green_roads_placed_y}}" == "")
             green_roads_placed_y = [];
         else
             green_roads_placed_y = "{{room.green_roads_placed_y}}".split(',');
 
         // blue
-        if("{{room.blue_roads_placed_x}}" == "None")
+        if("{{room.blue_roads_placed_x}}" == "")
             blue_roads_placed_x = [];
         else
             blue_roads_placed_x = "{{room.blue_roads_placed_x}}".split(',');
-        if("{{room.blue_roads_placed_y}}" == "None")
+        if("{{room.blue_roads_placed_y}}" == "")
             blue_roads_placed_y = [];
         else
             blue_roads_placed_y = "{{room.blue_roads_placed_y}}".split(',');
 
         // white
-        if("{{room.white_roads_placed_x}}" == "None")
+        if("{{room.white_roads_placed_x}}" == "")
             white_roads_placed_x = [];
         else
             white_roads_placed_x = "{{room.white_roads_placed_x}}".split(',');
-        if("{{room.white_roads_placed_y}}" == "None")
+        if("{{room.white_roads_placed_y}}" == "")
             white_roads_placed_y = [];
         else
             white_roads_placed_y = "{{room.white_roads_placed_y}}".split(',');
