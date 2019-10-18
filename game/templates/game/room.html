@@ -750,11 +750,10 @@ var desert_image = document.getElementById("desert_image");
                 break;
 
             case 'changeColor':
-                localChat("(" + message['timestamp'] + "): {{user}} is now " + choice + "!");
+                localChat("(" + message['timestamp'] + "): " + sender + " is now " + message['choice'] + "!");
                 break;
 
         }
-        //document.querySelector('#chat-log').value += (message + '\n');
     };
 
     chatSocket.onopen = function(e){
