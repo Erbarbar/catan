@@ -15,6 +15,7 @@
                 <button id="place_village" onclick="selectVillagePlacement();">Village</button>
                 <button id="place_city" onclick="selectCityPlacement();">City</button>
                 <button id="place_road" onclick="selectRoadPlacement();">Road</button>
+                <button id="move_thief" onclick="selectThiefPlacement();">Thief</button>
             </div>
          </div
         ><div id="player_area_left" class="player_area" onclick="chooseColor('blue')">
@@ -23,6 +24,7 @@
                 <button id="place_village" onclick="selectVillagePlacement();">Village</button>
                 <button id="place_city" onclick="selectCityPlacement();">City</button>
                 <button id="place_road" onclick="selectRoadPlacement();">Road</button>
+                <button id="move_thief" onclick="selectThiefPlacement();">Thief</button>
             </div>
         </div
         ><div id="board"
@@ -36,6 +38,7 @@
                 <button id="place_village" onclick="selectVillagePlacement();">Village</button>
                 <button id="place_city" onclick="selectCityPlacement();">City</button>
                 <button id="place_road" onclick="selectRoadPlacement();">Road</button>
+                <button id="move_thief" onclick="selectThiefPlacement();">Thief</button>
             </div>
         </div
         ><div id="player_area_bottom" class="player_area" onclick="chooseColor('white')">
@@ -44,6 +47,7 @@
                 <button id="place_village" onclick="selectVillagePlacement();">Village</button>
                 <button id="place_city" onclick="selectCityPlacement();">City</button>
                 <button id="place_road" onclick="selectRoadPlacement();">Road</button>
+                <button id="move_thief" onclick="selectThiefPlacement();">Thief</button>
             </div>
         </div
     ></div
@@ -78,6 +82,9 @@ var cos30 = 0.866025,
 
 var fields = "{{room.fields}}".split(",");
 var numbers = "{{room.numbers}}".split(",");
+
+var thief_x = 0;
+var thief_y = 0;
 
 var red_villages_placed_x = [];
 var red_villages_placed_y = [];
@@ -151,6 +158,9 @@ var desert_image = document.getElementById("desert_image");
                 case "road":
                     drawRoad(ctx, x, y, color);
                     break;
+                case "thief":
+                    drawThief(ctx, x, y);
+                    break;
             }
         });
 
@@ -193,6 +203,14 @@ var desert_image = document.getElementById("desert_image");
                         'color': color
                     });
                     break;
+                case "thief":
+                    moveThief(x,y);
+                    sendMessage({
+                        'user': '{{user}}',
+                        'message': 'moveThief',
+                        'x': x,
+                        'y': y,
+                    });
             }
             
 
@@ -327,6 +345,11 @@ var desert_image = document.getElementById("desert_image");
             white_roads_placed_y = [];
         else
             white_roads_placed_y = "{{room.white_roads_placed_y}}".split(',');
+    }
+
+    function getThiefFromServer(){
+        thief_x = {{room.thief_x}};
+        thief_y = {{room.thief_y}};
     }
 
     function chooseColor(choice){
@@ -479,6 +502,15 @@ var desert_image = document.getElementById("desert_image");
         }
     }
 
+    function moveThief(x,y){
+        thief_x = x;
+        thief_y = y;
+        var thief_x_form = document.getElementById("id_thief_x");
+        var thief_y_form = document.getElementById("id_thief_y");
+        thief_x_form.value = thief_x;
+        thief_y_form.value = thief_y;
+    }
+
     function getCursorPosition(canvas, event) {
         var rect = canvas.getBoundingClientRect(); // abs. size of element
         var scaleX = canvas.width / rect.width;    // relationship bitmap vs. element for X
@@ -539,6 +571,11 @@ var desert_image = document.getElementById("desert_image");
         drawHexagon(canvasContext, x-2*radius*cos30/tan30, y-2*radius*sin30/tan30, 16, temp_fields, temp_numbers);
         drawHexagon(canvasContext, x-1*radius*cos30/tan30, y-1*radius*sin30/tan30-1*radius/tan30, 17, temp_fields, temp_numbers);
         drawHexagon(canvasContext, x, y-2*radius/tan30, 18, temp_fields, temp_numbers);
+
+        //thief
+        if(thief_x != 0 || thief_y != 0){
+            drawThief(canvasContext, thief_x, thief_y);
+        }
 
         //villages
         for(var i = 0; i < red_villages_placed_x.length; i++){
@@ -614,6 +651,9 @@ var desert_image = document.getElementById("desert_image");
         canvasContext.strokeStyle = "#eee";
         canvasContext.lineWidth=20;
         canvasContext.stroke();
+        if(thief_x == 0 && thief_y == 0 && field=="d"){
+            drawThief(canvasContext, x, y);
+        }
         if(field!="d"){
             canvasContext.beginPath();
             canvasContext.arc(x,y,l/3.5,0,2*Math.PI);
@@ -666,6 +706,14 @@ var desert_image = document.getElementById("desert_image");
         ctx.closePath();
     }
 
+    function drawThief(ctx, x, y){
+        ctx.beginPath();
+        ctx.fillStyle = "#333";
+        ctx.arc(x,y,20,0,2*Math.PI);
+        ctx.fill();
+        ctx.closePath();
+    }
+
     function selectVillagePlacement(){
         placing = "village";
     }
@@ -674,6 +722,10 @@ var desert_image = document.getElementById("desert_image");
     }
     function selectRoadPlacement(){
         placing = "road";
+    }
+
+    function selectThiefPlacement(){
+        placing = "thief";
     }
 
     var roomName = "{{ room.name }}";
@@ -749,6 +801,11 @@ var desert_image = document.getElementById("desert_image");
                 drawBoard(ctx);
                 break;
 
+            case 'moveThief':
+                moveThief(x,y);
+                clearBoard(ctx);
+                drawBoard(ctx);
+
             case 'changeColor':
                 localChat("(" + message['timestamp'] + "): " + sender + " is now " + message['choice'] + "!");
                 break;
@@ -766,6 +823,8 @@ var desert_image = document.getElementById("desert_image");
         getCitiesFromServer();
         //get road positions
         getRoadsFromServer();
+        //get thief position
+        getThiefFromServer();
 
         clearBoard(ctx);
         drawBoard(ctx);

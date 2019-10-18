@@ -33,6 +33,9 @@ def room(request, room_name):
             room.name = form.cleaned_data['name']
             room.fields = form.cleaned_data['fields']
             room.numbers = form.cleaned_data['numbers']
+            #thief
+            room.thief_x = form.cleaned_data['thief_x']
+            room.thief_y = form.cleaned_data['thief_y']
             #villages
             room.red_villages_placed_x = form.cleaned_data['red_villages_placed_x']
             room.red_villages_placed_y = form.cleaned_data['red_villages_placed_y']

@@ -10,7 +10,8 @@ class RoomForm(forms.ModelForm):
             'name',
             'fields', 
             'numbers',
-
+            'thief_x',
+            'thief_y',
             'red_player',
             'red_villages_placed_x',
             'red_villages_placed_y',

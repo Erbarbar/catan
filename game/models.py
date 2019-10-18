@@ -9,6 +9,9 @@ class Room(models.Model):
     fields = models.CharField(max_length=37)
     numbers = models.CharField(max_length=40)
 
+    thief_x = models.IntegerField(default=0);
+    thief_y = models.IntegerField(default=0);
+
     red_player = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, related_name="red_player", null=True, blank=True)
     red_villages_placed_x = models.CharField(max_length=1000, null= True, blank=True, default="")
     red_villages_placed_y = models.CharField(max_length=1000, null= True, blank=True, default="")
