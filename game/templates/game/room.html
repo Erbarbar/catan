@@ -822,12 +822,14 @@ var desert_image = document.getElementById("desert_image");
                 moveThief(message['x'],message['y']);
                 clearBoard(ctx);
                 drawBoard(ctx);
+                break;
 
             case 'sendDice':
                 localChat("(" + message['timestamp'] + "): " + sender + " rolled " + message['dice'] + "!");
+                break;
 
             case 'changeColor':
-                localChat("(" + message['timestamp'] + "): " + sender + " is now " + message['choice'] + "!");
+                localChat("(" + message['timestamp'] + "): " + sender + " is now " + message['color'] + "!");
                 break;
 
         }
