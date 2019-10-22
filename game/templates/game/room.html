@@ -733,8 +733,10 @@ var desert_image = document.getElementById("desert_image");
     }
 
     function rollDice(){
-        var dice_1 = Math.random() * 6;
-        var dice_2 = Math.random() * 6;
+        var min = Math.ceil(1);
+        var max = Math.floor(6);
+        var dice_1 = Math.floor(Math.random() * (max - min + 1)) + min;
+        var dice_2 = Math.floor(Math.random() * (max - min + 1)) + min;
         var result = dice_1 + dice_2;
         localChat("You rolled " + result + "!");
         sendMessage({
