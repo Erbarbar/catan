@@ -16,6 +16,7 @@
                 <button id="place_city" onclick="selectCityPlacement();">City</button>
                 <button id="place_road" onclick="selectRoadPlacement();">Road</button>
                 <button id="move_thief" onclick="selectThiefPlacement();">Thief</button>
+                <button id="roll_dice" onclick="rollDice();">Roll Dice</button>
             </div>
          </div
         ><div id="player_area_left" class="player_area" onclick="chooseColor('blue')">
@@ -25,6 +26,7 @@
                 <button id="place_city" onclick="selectCityPlacement();">City</button>
                 <button id="place_road" onclick="selectRoadPlacement();">Road</button>
                 <button id="move_thief" onclick="selectThiefPlacement();">Thief</button>
+                <button id="roll_dice" onclick="rollDice();">Roll Dice</button>
             </div>
         </div
         ><div id="board"
@@ -39,6 +41,7 @@
                 <button id="place_city" onclick="selectCityPlacement();">City</button>
                 <button id="place_road" onclick="selectRoadPlacement();">Road</button>
                 <button id="move_thief" onclick="selectThiefPlacement();">Thief</button>
+                <button id="roll_dice" onclick="rollDice();">Roll Dice</button>
             </div>
         </div
         ><div id="player_area_bottom" class="player_area" onclick="chooseColor('white')">
@@ -48,6 +51,7 @@
                 <button id="place_city" onclick="selectCityPlacement();">City</button>
                 <button id="place_road" onclick="selectRoadPlacement();">Road</button>
                 <button id="move_thief" onclick="selectThiefPlacement();">Thief</button>
+                <button id="roll_dice" onclick="rollDice();">Roll Dice</button>
             </div>
         </div
     ></div
@@ -728,6 +732,19 @@ var desert_image = document.getElementById("desert_image");
         placing = "thief";
     }
 
+    function rollDice(){
+        var dice_1 = Math.random() * 6;
+        var dice_2 = Math.random() * 6;
+        var result = dice_1 + dice_2;
+        localChat("You rolled " + result + "!");
+        sendMessage({
+            'user': '{{user}}',
+            'message': 'sendDice',
+            'dice': result,
+            'timestamp': getTimeStamp()
+        });
+    }
+
     var roomName = "{{ room.name }}";
 
     var chatSocket = new WebSocket(
@@ -805,6 +822,9 @@ var desert_image = document.getElementById("desert_image");
                 moveThief(message['x'],message['y']);
                 clearBoard(ctx);
                 drawBoard(ctx);
+
+            case 'sendDice':
+                localChat("(" + message['timestamp'] + "): " + sender + " rolled " + message['dice'] + "!");
 
             case 'changeColor':
                 localChat("(" + message['timestamp'] + "): " + sender + " is now " + message['choice'] + "!");
