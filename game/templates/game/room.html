@@ -240,7 +240,7 @@ var desert_image = document.getElementById("desert_image");
                         'y': y,
                     });
             }
-            
+            selectNothing();
 
             clearBoard(ctx);
             drawBoard(ctx);
@@ -837,18 +837,22 @@ var desert_image = document.getElementById("desert_image");
         switch (color){
             case "red":
                 if(red_villages_available==0)
+                    selectNothing();
                     return;
                 break;
             case "green":
                 if(green_villages_available==0)
+                    selectNothing();
                     return;
                 break;
             case "blue":
                 if(blue_villages_available==0)
+                    selectNothing();
                     return;
                 break;
             case "white":
                 if(white_villages_available==0)
+                    selectNothing();
                     return;
                 break;
         }
@@ -858,18 +862,22 @@ var desert_image = document.getElementById("desert_image");
         switch (color){
             case "red":
                 if(red_cities_available==0)
+                    selectNothing();
                     return;
                 break;
             case "green":
                 if(green_cities_available==0)
+                    selectNothing();
                     return;
                 break;
             case "blue":
                 if(blue_cities_available==0)
+                    selectNothing();
                     return;
                 break;
             case "white":
                 if(white_cities_available==0)
+                    selectNothing();
                     return;
                 break;
         }
@@ -879,18 +887,22 @@ var desert_image = document.getElementById("desert_image");
         switch (color){
             case "red":
                 if(red_roads_available==0)
+                    selectNothing();
                     return;
                 break;
             case "green":
                 if(green_roads_available==0)
+                    selectNothing();
                     return;
                 break;
             case "blue":
                 if(blue_roads_available==0)
+                    selectNothing();
                     return;
                 break;
             case "white":
                 if(white_roads_available==0)
+                    selectNothing();
                     return;
                 break;
         }
@@ -899,6 +911,10 @@ var desert_image = document.getElementById("desert_image");
 
     function selectThiefPlacement(){
         placing = "thief";
+    }
+
+    function selectNothing(){
+        placing = "nothing";
     }
 
     function rollDice(){
