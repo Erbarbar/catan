@@ -251,7 +251,7 @@ var desert_image = document.getElementById("desert_image");
 
     function getVillagesFromServer(){
         //red
-        console.log("red_villages_available: " + {{room.red_villages_available}});
+        red_villages_available = {{room.red_villages_available}};
         if("{{room.red_villages_placed_x}}" == "")
             red_villages_placed_x = [];
         else
@@ -262,6 +262,7 @@ var desert_image = document.getElementById("desert_image");
             red_villages_placed_y = "{{room.red_villages_placed_y}}".split(',');
 
         //green
+        green_villages_available = {{room.green_villages_available}};
         if("{{room.green_villages_placed_x}}" == "")
             green_villages_placed_x = [];
         else
@@ -272,6 +273,7 @@ var desert_image = document.getElementById("desert_image");
             green_villages_placed_y = "{{room.green_villages_placed_y}}".split(',');
 
         // blue
+        blue_villages_available = {{room.blue_villages_available}};
         if("{{room.blue_villages_placed_x}}" == "")
             blue_villages_placed_x = [];
         else
@@ -282,6 +284,7 @@ var desert_image = document.getElementById("desert_image");
             blue_villages_placed_y = "{{room.blue_villages_placed_y}}".split(',');
 
         // white
+        white_villages_available = {{room.white_villages_available}};
         if("{{room.white_villages_placed_x}}" == "")
             white_villages_placed_x = [];
         else
@@ -294,6 +297,7 @@ var desert_image = document.getElementById("desert_image");
 
     function getCitiesFromServer(){
         //red
+        red_cities_available = {{room.red_cities_available}};
         if("{{room.red_cities_placed_x}}" == "")
             red_cities_placed_x = [];
         else
@@ -304,6 +308,7 @@ var desert_image = document.getElementById("desert_image");
             red_cities_placed_y = "{{room.red_cities_placed_y}}".split(',');
 
         //green
+        green_cities_available = {{room.green_cities_available}};
         if("{{room.green_cities_placed_x}}" == "")
             green_cities_placed_x = [];
         else
@@ -314,6 +319,7 @@ var desert_image = document.getElementById("desert_image");
             green_cities_placed_y = "{{room.green_cities_placed_y}}".split(',');
 
         // blue
+        blue_cities_available = {{room.blue_cities_available}};
         if("{{room.blue_cities_placed_x}}" == "")
             blue_cities_placed_x = [];
         else
@@ -324,6 +330,7 @@ var desert_image = document.getElementById("desert_image");
             blue_cities_placed_y = "{{room.blue_cities_placed_y}}".split(',');
 
         // white
+        white_cities_available = {{room.white_cities_available}};
         if("{{room.white_cities_placed_x}}" == "")
             white_cities_placed_x = [];
         else
@@ -336,6 +343,7 @@ var desert_image = document.getElementById("desert_image");
 
     function getRoadsFromServer(){
         //red
+        red_roads_available = {{room.red_roads_available}};
         if("{{room.red_roads_placed_x}}" == "")
             red_roads_placed_x = [];
         else
@@ -346,6 +354,7 @@ var desert_image = document.getElementById("desert_image");
             red_roads_placed_y = "{{room.red_roads_placed_y}}".split(',');
 
         //green
+        green_roads_available = {{room.green_roads_available}};
         if("{{room.green_roads_placed_x}}" == "")
             green_roads_placed_x = [];
         else
@@ -356,6 +365,7 @@ var desert_image = document.getElementById("desert_image");
             green_roads_placed_y = "{{room.green_roads_placed_y}}".split(',');
 
         // blue
+        blue_roads_available = {{room.blue_roads_available}};
         if("{{room.blue_roads_placed_x}}" == "")
             blue_roads_placed_x = [];
         else
@@ -366,6 +376,7 @@ var desert_image = document.getElementById("desert_image");
             blue_roads_placed_y = "{{room.blue_roads_placed_y}}".split(',');
 
         // white
+        white_roads_available = {{room.white_roads_available}};
         if("{{room.white_roads_placed_x}}" == "")
             white_roads_placed_x = [];
         else

@@ -43,7 +43,7 @@ def room(request, room_name):
             room.green_villages_available = form.cleaned_data['green_villages_available']
             room.green_villages_placed_x = form.cleaned_data['green_villages_placed_x']
             room.green_villages_placed_y = form.cleaned_data['green_villages_placed_y']
-            room.blue_villages_available = form.cleaned_datablue_villages_available
+            room.blue_villages_available = form.cleaned_data['blue_villages_available']
             room.blue_villages_placed_x = form.cleaned_data['blue_villages_placed_x']
             room.blue_villages_placed_y = form.cleaned_data['blue_villages_placed_y']
             room.white_villages_available = form.cleaned_data['white_villages_available']
