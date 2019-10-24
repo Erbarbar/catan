@@ -12,21 +12,21 @@
         ><div id="player_area_top" class="player_area" onclick="chooseColor('red')">
             <div id=red_options style="display: none;">
                 <button id="end_turn_red"  onclick="updateDatabase();"> End Turn </button>
-                <button id="place_village" onclick="selectVillagePlacement();">Village</button>
-                <button id="place_city" onclick="selectCityPlacement();">City</button>
-                <button id="place_road" onclick="selectRoadPlacement();">Road</button>
-                <button id="move_thief" onclick="selectThiefPlacement();">Thief</button>
-                <button id="roll_dice" onclick="rollDice();">Roll Dice</button>
+                <button id="place_village_red" onclick="selectVillagePlacement();">Village ({{room.red_villages_available}})</button>
+                <button id="place_city_red" onclick="selectCityPlacement();">City ({{room.red_cities_available}})</button>
+                <button id="place_road_red" onclick="selectRoadPlacement();">Road ({{room.red_roads_available}})</button>
+                <button id="move_thief_red" onclick="selectThiefPlacement();">Thief</button>
+                <button id="roll_dice_red" onclick="rollDice();">Roll Dice</button>
             </div>
          </div
         ><div id="player_area_left" class="player_area" onclick="chooseColor('blue')">
             <div id=blue_options style="display: none;">
                 <button id="end_turn_blue"  onclick="updateDatabase();"> End Turn </button>
-                <button id="place_village" onclick="selectVillagePlacement();">Village</button>
-                <button id="place_city" onclick="selectCityPlacement();">City</button>
-                <button id="place_road" onclick="selectRoadPlacement();">Road</button>
-                <button id="move_thief" onclick="selectThiefPlacement();">Thief</button>
-                <button id="roll_dice" onclick="rollDice();">Roll Dice</button>
+                <button id="place_village_blue" onclick="selectVillagePlacement();">Village ({{room.blue_villages_available}})</button>
+                <button id="place_city_blue" onclick="selectCityPlacement();">City ({{room.blue_cities_available}})</button>
+                <button id="place_road_blue" onclick="selectRoadPlacement();">Road ({{room.blue_roads_available}})</button>
+                <button id="move_thief_blue" onclick="selectThiefPlacement();">Thief</button>
+                <button id="roll_dice_blue" onclick="rollDice();">Roll Dice</button>
             </div>
         </div
         ><div id="board"
@@ -37,21 +37,21 @@
         ><div id="player_area_right" class="player_area" onclick="chooseColor('green')">
             <div id=green_options style="display: none;">
                 <button id="end_turn_green"  onclick="updateDatabase();"> End Turn </button>
-                <button id="place_village" onclick="selectVillagePlacement();">Village</button>
-                <button id="place_city" onclick="selectCityPlacement();">City</button>
-                <button id="place_road" onclick="selectRoadPlacement();">Road</button>
-                <button id="move_thief" onclick="selectThiefPlacement();">Thief</button>
-                <button id="roll_dice" onclick="rollDice();">Roll Dice</button>
+                <button id="place_village_green" onclick="selectVillagePlacement();">Village ({{room.green_villages_available}})</button>
+                <button id="place_city_green" onclick="selectCityPlacement();">City ({{room.green_cities_available}})</button>
+                <button id="place_road_green" onclick="selectRoadPlacement();">Road ({{room.green_roads_available}})</button>
+                <button id="move_thief_green" onclick="selectThiefPlacement();">Thief</button>
+                <button id="roll_dice_green" onclick="rollDice();">Roll Dice</button>
             </div>
         </div
         ><div id="player_area_bottom" class="player_area" onclick="chooseColor('white')">
             <div id=white_options style="display: none;">
                 <button id="end_turn_white"  onclick="updateDatabase();"> End Turn </button>
-                <button id="place_village" onclick="selectVillagePlacement();">Village</button>
-                <button id="place_city" onclick="selectCityPlacement();">City</button>
-                <button id="place_road" onclick="selectRoadPlacement();">Road</button>
-                <button id="move_thief" onclick="selectThiefPlacement();">Thief</button>
-                <button id="roll_dice" onclick="rollDice();">Roll Dice</button>
+                <button id="place_village_white" onclick="selectVillagePlacement();">Village ({{room.white_villages_available}})</button>
+                <button id="place_city_white" onclick="selectCityPlacement();">City ({{room.white_cities_available}})</button>
+                <button id="place_road_white" onclick="selectRoadPlacement();">Road ({{room.white_roads_available}})</button>
+                <button id="move_thief_white" onclick="selectThiefPlacement();">Thief</button>
+                <button id="roll_dice_white" onclick="rollDice();">Roll Dice</button>
             </div>
         </div
     ></div
@@ -90,30 +90,54 @@ var numbers = "{{room.numbers}}".split(",");
 var thief_x = 0;
 var thief_y = 0;
 
+// villages
+var red_villages_available = {{rom.red_villages}};
 var red_villages_placed_x = [];
 var red_villages_placed_y = [];
+
+var green_villages_available = {{rom.green_villages}};
 var green_villages_placed_x = [];
 var green_villages_placed_y = [];
+
+var blue_villages_available = {{room.blue_villages}};
 var blue_villages_placed_x = [];
 var blue_villages_placed_y = [];
+
+var white_villages_available = {{room.white_villages}};
 var white_villages_placed_x = [];
 var white_villages_placed_y = [];
 
+// cities
+var red_cities_available = {{room.red_cities_available}};
 var red_cities_placed_x = [];
 var red_cities_placed_y = [];
+
+var green_cities_available = {{room.green_cities_available}};
 var green_cities_placed_x = [];
 var green_cities_placed_y = [];
+
+var blue_cities_available = {{room.blue_cities_available}};
 var blue_cities_placed_x = [];
 var blue_cities_placed_y = [];
+
+var white_cities_available = {{room.white_cities_available}};
 var white_cities_placed_x = [];
 var white_cities_placed_y = [];
 
+// roads
+var red_roads_available = {{room.red_roads_available}};
 var red_roads_placed_x = [];
 var red_roads_placed_y = [];
+
+var green_roads_available = {{room.green_roads_available}};
 var green_roads_placed_x = [];
 var green_roads_placed_y = [];
+
+var blue_roads_available = {{room.blue_roads_available}};
 var blue_roads_placed_x = [];
 var blue_roads_placed_y = [];
+
+var white_roads_available = {{room.white_roads_available}};
 var white_roads_placed_x = [];
 var white_roads_placed_y = [];
 
@@ -398,36 +422,56 @@ var desert_image = document.getElementById("desert_image");
     function addVillage(x, y, c){
         switch (c){
             case "red":
+                red_villages_available = red_villages_available - 1;
                 red_villages_placed_x.push(x);
                 red_villages_placed_y.push(y);
+                var red_villages_available_form = document.getElementById("id_red_villages_available");
                 var red_villages_placed_x_form = document.getElementById("id_red_villages_placed_x");
                 var red_villages_placed_y_form = document.getElementById("id_red_villages_placed_y");
+                red_villages_available_form.value = red_villages_available;
                 red_villages_placed_x_form.value = red_villages_placed_x.toString();
                 red_villages_placed_y_form.value = red_villages_placed_y.toString();
+                var place_village_red_button = document.getElementById("place_village_red");
+                place_village_red_button.innerHTML = "Village (" + red_villages_available + ")";
                 break;
             case "green":
+                green_villages_available = green_villages_available - 1;
                 green_villages_placed_x.push(x);
                 green_villages_placed_y.push(y);
+                var green_villages_available_form = document.getElementById("id_green_villages_available");
                 var green_villages_placed_x_form = document.getElementById("id_green_villages_placed_x");
                 var green_villages_placed_y_form = document.getElementById("id_green_villages_placed_y");
+                green_villages_available_form.value = green_villages_available;
                 green_villages_placed_x_form.value = green_villages_placed_x.toString();
                 green_villages_placed_y_form.value = green_villages_placed_y.toString();
+                var place_village_green_button = document.getElementById("place_village_green");
+                place_village_green_button.innerHTML = "Village (" + green_villages_available + ")";
                 break;
             case "blue":
+                blue_villages_available = blue_villages_available -1;
                 blue_villages_placed_x.push(x);
                 blue_villages_placed_y.push(y);
+                var blue_villages_available_form = document.getElementById("id_blue_villages_available");
                 var blue_villages_placed_x_form = document.getElementById("id_blue_villages_placed_x");
                 var blue_villages_placed_y_form = document.getElementById("id_blue_villages_placed_y");
+                blue_villages_available_form.value = blue_villages_available;
                 blue_villages_placed_x_form.value = blue_villages_placed_x.toString();
                 blue_villages_placed_y_form.value = blue_villages_placed_y.toString();
+                var place_village_white_button = document.getElementById("place_village_blue");
+                place_village_white_button.innerHTML = "Village (" + blue_villages_available + ")";
                 break;
             case "white":
+                white_villages_available = white_villages_available -1;
                 white_villages_placed_x.push(x);
                 white_villages_placed_y.push(y);
+                var white_villages_available_form = document.getElementById("id_white_villages_available");
                 var white_villages_placed_x_form = document.getElementById("id_white_villages_placed_x");
                 var white_villages_placed_y_form = document.getElementById("id_white_villages_placed_y");
+                white_villages_available_form.value = white_villages_available;
                 white_villages_placed_x_form.value = white_villages_placed_x.toString();
                 white_villages_placed_y_form.value = white_villages_placed_y.toString();
+                var place_village_white_button = document.getElementById("place_village_white");
+                place_village_white_button.innerHTML = "Village (" + white_villages_available + ")";
                 break;
         }
     }
@@ -435,36 +479,75 @@ var desert_image = document.getElementById("desert_image");
     function addCity(x, y, c){
         switch (c){
             case "red":
+                red_cities_available = red_cities_available -1;
+                red_villages_available = red_villages_available + 1;
                 red_cities_placed_x.push(x);
                 red_cities_placed_y.push(y);
+                var red_cities_available_form = document.getElementById("id_red_cities_available");
+                var red_villages_available_form = document.getElementById("id_red_villages_available");
                 var red_cities_placed_x_form = document.getElementById("id_red_cities_placed_x");
                 var red_cities_placed_y_form = document.getElementById("id_red_cities_placed_y");
+                red_cities_available_form.value = red_cities_available;
+                red_villages_available_form.value = red_villages_available;
                 red_cities_placed_x_form.value = red_cities_placed_x.toString();
                 red_cities_placed_y_form.value = red_cities_placed_y.toString();
+                var place_city_red_button = document.getElementById("place_city_red");
+                place_city_red_button.innerHTML = "City (" + red_cities_available + ")";
+                var place_village_red_button = document.getElementById("place_village_red");
+                place_village_red_button.innerHTML = "Village (" + red_villages_available + ")";
                 break;
             case "green":
+                green_cities_available = green_cities_available -1;
+                green_villages_available = green_villages_available + 1;
                 green_cities_placed_x.push(x);
                 green_cities_placed_y.push(y);
+                var green_cities_available_form = document.getElementById("id_green_cities_available");
+                var green_villages_available_form = document.getElementById("id_green_villages_available");
                 var green_cities_placed_x_form = document.getElementById("id_green_cities_placed_x");
                 var green_cities_placed_y_form = document.getElementById("id_green_cities_placed_y");
+                green_cities_available_form.value = green_cities_available;
+                green_villages_available_form.value = green_villages_available;
                 green_cities_placed_x_form.value = green_cities_placed_x.toString();
                 green_cities_placed_y_form.value = green_cities_placed_y.toString();
+                var place_city_green_button = document.getElementById("place_city_green");
+                place_city_green_button.innerHTML = "City (" + green_cities_available + ")";
+                var place_village_green_button = document.getElementById("place_village_green");
+                place_village_green_button.innerHTML = "Village (" + green_villages_available + ")";
                 break;
             case "blue":
+                blue_cities_available = blue_cities_available -1;
+                blue_villages_available = blue_villages_available + 1;
                 blue_cities_placed_x.push(x);
                 blue_cities_placed_y.push(y);
+                var blue_cities_available_form = document.getElementById("id_blue_cities_available");
+                var blue_villages_available_form = document.getElementById("id_blue_villages_available");
                 var blue_cities_placed_x_form = document.getElementById("id_blue_cities_placed_x");
                 var blue_cities_placed_y_form = document.getElementById("id_blue_cities_placed_y");
+                blue_cities_available_form.value = blue_cities_available;
+                blue_villages_available_form.value = blue_villages_available;
                 blue_cities_placed_x_form.value = blue_cities_placed_x.toString();
                 blue_cities_placed_y_form.value = blue_cities_placed_y.toString();
+                var place_city_blue_button = document.getElementById("place_city_blue");
+                place_city_blue_button.innerHTML = "City (" + blue_cities_available + ")";
+                var place_village_blue_button = document.getElementById("place_village_blue");
+                place_village_blue_button.innerHTML = "Village (" + blue_villages_available + ")";
                 break;
             case "white":
+                white_cities_available = white_cities_available -1;
+                white_villages_available = white_villages_available + 1;
                 white_cities_placed_x.push(x);
                 white_cities_placed_y.push(y);
+                var white_cities_available_form = document.getElementById("id_white_cities_available");
+                var white_villages_available_form = document.getElementById("id_white_villages_available");
                 var white_cities_placed_x_form = document.getElementById("id_white_cities_placed_x");
                 var white_cities_placed_y_form = document.getElementById("id_white_cities_placed_y");
+                white_cities_available_form.value = white_cities_available;
                 white_cities_placed_x_form.value = white_cities_placed_x.toString();
                 white_cities_placed_y_form.value = white_cities_placed_y.toString();
+                var place_city_white_button = document.getElementById("place_city_white");
+                place_city_white_button.innerHTML = "City (" + white_cities_available + ")";
+                var place_village_white_button = document.getElementById("place_village_white");
+                place_village_white_button.innerHTML = "Village (" + white_villages_available + ")";
                 break;
         }
     }
@@ -472,36 +555,56 @@ var desert_image = document.getElementById("desert_image");
     function addRoad(x, y, c){
         switch (c){
             case "red":
+                red_roads_available = red_roads_available -1;
                 red_roads_placed_x.push(x);
                 red_roads_placed_y.push(y);
+                var red_roads_available_form = document.getElementById("id_red_roads_available");
                 var red_roads_placed_x_form = document.getElementById("id_red_roads_placed_x");
                 var red_roads_placed_y_form = document.getElementById("id_red_roads_placed_y");
+                red_roads_available_form.value = red_roads_available;
                 red_roads_placed_x_form.value = red_roads_placed_x.toString();
                 red_roads_placed_y_form.value = red_roads_placed_y.toString();
+                var place_road_red_button = document.getElementById("place_road_red");
+                place_road_red_button.innerHTML = "Road (" + red_roads_available + ")";
                 break;
             case "green":
+                green_roads_available = green_roads_available -1;
                 green_roads_placed_x.push(x);
                 green_roads_placed_y.push(y);
+                var green_roads_available_form = document.getElementById("id_green_roads_available");
                 var green_roads_placed_x_form = document.getElementById("id_green_roads_placed_x");
                 var green_roads_placed_y_form = document.getElementById("id_green_roads_placed_y");
+                green_roads_available_form.value = green_roads_available;
                 green_roads_placed_x_form.value = green_roads_placed_x.toString();
                 green_roads_placed_y_form.value = green_roads_placed_y.toString();
+                var place_road_green_button = document.getElementById("place_road_green");
+                place_road_green_button.innerHTML = "Road (" + green_roads_available + ")";
                 break;
             case "blue":
+                blue_roads_available = blue_roads_available -1;
                 blue_roads_placed_x.push(x);
                 blue_roads_placed_y.push(y);
+                var blue_roads_available_form = document.getElementById("id_blue_roads_available");
                 var blue_roads_placed_x_form = document.getElementById("id_blue_roads_placed_x");
                 var blue_roads_placed_y_form = document.getElementById("id_blue_roads_placed_y");
+                blue_roads_available_form.value = blue_roads_available;
                 blue_roads_placed_x_form.value = blue_roads_placed_x.toString();
                 blue_roads_placed_y_form.value = blue_roads_placed_y.toString();
+                var place_road_blue_button = document.getElementById("place_road_blue");
+                place_road_blue_button.innerHTML = "Road (" + blue_roads_available + ")";
                 break;
             case "white":
+                white_roads_available = white_roads_available -1;
                 white_roads_placed_x.push(x);
                 white_roads_placed_y.push(y);
+                var white_roads_available_form = document.getElementById("id_white_roads_available");
                 var white_roads_placed_x_form = document.getElementById("id_white_roads_placed_x");
                 var white_roads_placed_y_form = document.getElementById("id_white_roads_placed_y");
+                white_roads_available_form.value = white_roads_available;
                 white_roads_placed_x_form.value = white_roads_placed_x.toString();
                 white_roads_placed_y_form.value = white_roads_placed_y.toString();
+                var place_road_white_button = document.getElementById("place_road_white");
+                place_road_white_button.innerHTML = "Road (" + white_roads_available + ")";
                 break;
         }
     }
@@ -719,12 +822,66 @@ var desert_image = document.getElementById("desert_image");
     }
 
     function selectVillagePlacement(){
+        switch (color){
+            case "red":
+                if(red_villages_available==0)
+                    return;
+                break;
+            case "green":
+                if(green_villages_available==0)
+                    return;
+                break;
+            case "blue":
+                if(blue_villages_available==0)
+                    return;
+                break;
+            case "white":
+                if(white_villages_available==0)
+                    return;
+                break;
+        }
         placing = "village";
     }
     function selectCityPlacement(){
+        switch (color){
+            case "red":
+                if(red_cities_available==0)
+                    return;
+                break;
+            case "green":
+                if(green_cities_available==0)
+                    return;
+                break;
+            case "blue":
+                if(blue_cities_available==0)
+                    return;
+                break;
+            case "white":
+                if(white_cities_available==0)
+                    return;
+                break;
+        }
         placing = "city";
     }
     function selectRoadPlacement(){
+        switch (color){
+            case "red":
+                if(red_roads_available==0)
+                    return;
+                break;
+            case "green":
+                if(green_roads_available==0)
+                    return;
+                break;
+            case "blue":
+                if(blue_roads_available==0)
+                    return;
+                break;
+            case "white":
+                if(white_roads_available==0)
+                    return;
+                break;
+        }
         placing = "road";
     }
 
