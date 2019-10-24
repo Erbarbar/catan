@@ -251,6 +251,7 @@ var desert_image = document.getElementById("desert_image");
 
     function getVillagesFromServer(){
         //red
+        console.log("red_villages_available: " + {{room.red_villages_available}});
         if("{{room.red_villages_placed_x}}" == "")
             red_villages_placed_x = [];
         else
