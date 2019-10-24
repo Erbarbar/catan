@@ -12,6 +12,8 @@ class Room(models.Model):
     thief_x = models.IntegerField(default=0);
     thief_y = models.IntegerField(default=0);
 
+    turn = models.CharField(max_length=10, default="none");
+
     red_player = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, related_name="red_player", null=True, blank=True)
     red_villages_placed_x = models.CharField(max_length=1000, null= True, blank=True, default="")
     red_villages_placed_y = models.CharField(max_length=1000, null= True, blank=True, default="")

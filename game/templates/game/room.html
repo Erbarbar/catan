@@ -11,7 +11,7 @@
     <div id="container"
         ><div id="player_area_top" class="player_area" onclick="chooseColor('red')">
             <div id=red_options style="display: none;">
-                <button id="end_turn_red"  onclick="updateDatabase();"> End Turn </button>
+                <button id="end_turn_red"  onclick="endTurn();"> End Turn </button>
                 <button id="place_village_red" onclick="selectVillagePlacement();">Village ({{room.red_villages_available}})</button>
                 <button id="place_city_red" onclick="selectCityPlacement();">City ({{room.red_cities_available}})</button>
                 <button id="place_road_red" onclick="selectRoadPlacement();">Road ({{room.red_roads_available}})</button>
@@ -21,7 +21,7 @@
          </div
         ><div id="player_area_left" class="player_area" onclick="chooseColor('blue')">
             <div id=blue_options style="display: none;">
-                <button id="end_turn_blue"  onclick="updateDatabase();"> End Turn </button>
+                <button id="end_turn_blue"  onclick="endTurn();"> End Turn </button>
                 <button id="place_village_blue" onclick="selectVillagePlacement();">Village ({{room.blue_villages_available}})</button>
                 <button id="place_city_blue" onclick="selectCityPlacement();">City ({{room.blue_cities_available}})</button>
                 <button id="place_road_blue" onclick="selectRoadPlacement();">Road ({{room.blue_roads_available}})</button>
@@ -36,7 +36,7 @@
         ></div
         ><div id="player_area_right" class="player_area" onclick="chooseColor('green')">
             <div id=green_options style="display: none;">
-                <button id="end_turn_green"  onclick="updateDatabase();"> End Turn </button>
+                <button id="end_turn_green"  onclick="endTurn();"> End Turn </button>
                 <button id="place_village_green" onclick="selectVillagePlacement();">Village ({{room.green_villages_available}})</button>
                 <button id="place_city_green" onclick="selectCityPlacement();">City ({{room.green_cities_available}})</button>
                 <button id="place_road_green" onclick="selectRoadPlacement();">Road ({{room.green_roads_available}})</button>
@@ -46,7 +46,7 @@
         </div
         ><div id="player_area_bottom" class="player_area" onclick="chooseColor('white')">
             <div id=white_options style="display: none;">
-                <button id="end_turn_white"  onclick="updateDatabase();"> End Turn </button>
+                <button id="end_turn_white"  onclick="endTurn();"> End Turn </button>
                 <button id="place_village_white" onclick="selectVillagePlacement();">Village ({{room.white_villages_available}})</button>
                 <button id="place_city_white" onclick="selectCityPlacement();">City ({{room.white_cities_available}})</button>
                 <button id="place_road_white" onclick="selectRoadPlacement();">Road ({{room.white_roads_available}})</button>
@@ -89,6 +89,13 @@ var numbers = "{{room.numbers}}".split(",");
 
 var thief_x = 0;
 var thief_y = 0;
+
+var turn;
+
+var red_player;
+var green_player;
+var blue_player;
+var white_player;
 
 // villages
 var red_villages_available;
@@ -392,6 +399,17 @@ var desert_image = document.getElementById("desert_image");
         thief_y = {{room.thief_y}};
     }
 
+    function getPlayersFromServer(){
+        red_player = "{{room.red_player}}";
+        green_player = "{{room.green_player}}";
+        blue_player = "{{room.blue_player}}";
+        white_player = "{{room.white_player}}";
+    }
+
+    function getTurn(){
+        turn = {{room.turn}};
+    }
+
     function chooseColor(choice){
         if (color!= "none"){
             console.log("already " + color);
@@ -405,14 +423,15 @@ var desert_image = document.getElementById("desert_image");
             }
         }
 
+
         sendMessage({
             'user': "{{user}}",
             'message': "changeColor",
             'color': choice,
             'timestamp': getTimeStamp()
         });
-        updateDatabase();
         color = choice;
+        updateDatabase();
     }
 
     function getColor(){
@@ -1004,9 +1023,27 @@ var desert_image = document.getElementById("desert_image");
                 break;
 
             case 'changeColor':
+                switch(message['color']){
+                    case "red":
+                        red_player = sender;
+                        break;
+                    case "green":
+                        green_player = sender;
+                        break;
+                    case "blue":
+                        blue_player = sender;
+                        break;
+                    case "white":
+                        white_player = sender;
+                        break;
+                }
                 localChat("(" + message['timestamp'] + "): " + sender + " is now " + message['color'] + "!");
                 break;
 
+            case 'changeTurn':
+                localChat(sender + " ended their turn. It is now " + message['next'] + " player's turn!");
+                turn = message['next'];
+                break;
         }
     };
 
@@ -1014,6 +1051,9 @@ var desert_image = document.getElementById("desert_image");
         var board_canvas = document.getElementById("board_canvas");
         var ctx = board_canvas.getContext('2d');
 
+
+        //get turn
+        getTurnFromServer();
         //get village positions
         getVillagesFromServer();
         //get city positions
@@ -1022,6 +1062,7 @@ var desert_image = document.getElementById("desert_image");
         getRoadsFromServer();
         //get thief position
         getThiefFromServer();
+
 
         clearBoard(ctx);
         drawBoard(ctx);
@@ -1036,6 +1077,31 @@ var desert_image = document.getElementById("desert_image");
     function localChat(message){
         document.querySelector('#chat-log').value += message + "\n";
         document.querySelector("#chat-log").scrollTop = document.querySelector("#chat-log").scrollHeight
+    }
+
+    function endTurn(){
+        console.log(red_player);
+        console.log(green_player);
+        console.log(blue_player);
+        console.log(white_player);
+        switch (color){
+            case "red":
+
+                break;
+            case "green":
+                break;
+            case "blue":
+                break;
+            case "white":
+                break;
+        }
+        sendMessage({
+            'user': '{{user}}',
+            'message': 'changeTurn',
+            'next': next_turn_color,
+            'timestamp': getTimeStamp()
+        });
+        updateDatabase();
     }
 
     function updateDatabase(){

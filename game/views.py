@@ -36,6 +36,8 @@ def room(request, room_name):
             #thief
             room.thief_x = form.cleaned_data['thief_x']
             room.thief_y = form.cleaned_data['thief_y']
+            #turn
+            room.turn = form.cleaned_data['turn']
             #villages
             room.red_villages_available = form.cleaned_data['red_villages_available']
             room.red_villages_placed_x = form.cleaned_data['red_villages_placed_x']
@@ -77,6 +79,11 @@ def room(request, room_name):
             room.white_cities_placed_y = form.cleaned_data['white_cities_placed_y']
             room.save()
             form.save()
+            return HTTPResponseRedirect(request, 'game/room.html', {
+                'room': room,
+                'form': form,
+                'user': request.user
+                })
     else:
         form = RoomForm(instance=room)
 
