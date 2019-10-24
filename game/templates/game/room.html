@@ -834,79 +834,67 @@ var desert_image = document.getElementById("desert_image");
     }
 
     function selectVillagePlacement(){
+        placing = "village";
         switch (color){
             case "red":
                 if(red_villages_available==0)
                     selectNothing();
-                    return;
                 break;
             case "green":
                 if(green_villages_available==0)
                     selectNothing();
-                    return;
                 break;
             case "blue":
                 if(blue_villages_available==0)
                     selectNothing();
-                    return;
                 break;
             case "white":
                 if(white_villages_available==0)
                     selectNothing();
-                    return;
                 break;
         }
-        placing = "village";
     }
     function selectCityPlacement(){
+        placing = "city";
         switch (color){
             case "red":
                 if(red_cities_available==0)
                     selectNothing();
-                    return;
                 break;
             case "green":
                 if(green_cities_available==0)
                     selectNothing();
-                    return;
                 break;
             case "blue":
                 if(blue_cities_available==0)
                     selectNothing();
-                    return;
                 break;
             case "white":
                 if(white_cities_available==0)
                     selectNothing();
-                    return;
                 break;
         }
-        placing = "city";
     }
     function selectRoadPlacement(){
+        placing = "road";
         switch (color){
             case "red":
                 if(red_roads_available==0)
                     selectNothing();
-                    return;
                 break;
             case "green":
                 if(green_roads_available==0)
                     selectNothing();
-                    return;
                 break;
             case "blue":
                 if(blue_roads_available==0)
                     selectNothing();
-                    return;
                 break;
             case "white":
                 if(white_roads_available==0)
                     selectNothing();
-                    return;
                 break;
         }
-        placing = "road";
     }
 
     function selectThiefPlacement(){
