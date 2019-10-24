@@ -1,6 +1,7 @@
 # game/views.py
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
+from django.http import HttpResponseRedirect
 from django.utils.safestring import mark_safe
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
@@ -79,7 +80,7 @@ def room(request, room_name):
             room.white_cities_placed_y = form.cleaned_data['white_cities_placed_y']
             room.save()
             form.save()
-            return HTTPResponseRedirect(request, 'game/room.html', {
+            return HttpResponseRedirect(request, 'game/room.html', {
                 'room': room,
                 'form': form,
                 'user': request.user
