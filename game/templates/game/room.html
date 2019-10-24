@@ -1035,6 +1035,7 @@ var desert_image = document.getElementById("desert_image");
 
     function localChat(message){
         document.querySelector('#chat-log').value += message + "\n";
+        document.querySelector("#chat-log").scrollTop = document.querySelector("#chat-log").scrollHeight
     }
 
     function updateDatabase(){
